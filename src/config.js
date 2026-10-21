@@ -1,6 +1,6 @@
 // Site-wide switches and timings. Content (characters, news, messages) lives in public/data/*.json.
 export const CONFIG = {
-  DEV_SKIP_INTRO: true,              // debug: no phone / «Да», page is unlocked right away and fully visible
+  DEV_SKIP_INTRO: false,              // debug: no phone / «Да», page is unlocked right away and fully visible
   hero: {
     firstBackground: 'city',          // 'city' | 'park' | 'forest'
     backgrounds: ['city', 'park', 'forest'],
