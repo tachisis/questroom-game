@@ -1,0 +1,37 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--f-sans);
+  -webkit-font-smoothing: antialiased;
+}
+/* page scroll is locked until the visitor answers «Да» */
+html.is-locked, body.is-locked { overflow: hidden; }
+
+a { color: var(--text); }
+a:hover { color: var(--red-soft); }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter); }
+.eyebrow { margin: 0; font: 500 12px/1.4 var(--f-mono); letter-spacing: .28em; text-transform: uppercase; color: var(--muted); }
+.eyebrow.red { color: var(--red); }
+.h2 { margin: 12px 0 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(44px, 7vw, 88px); line-height: 1; text-transform: uppercase; letter-spacing: .02em; color: var(--paper); }
+.whisper { margin: 0; padding: 56px 16px 0; text-align: center; font: 500 12px/1 var(--f-mono); letter-spacing: .4em; text-transform: uppercase; color: var(--muted); }
+.whisper span { color: var(--red); }
+
+.icon-btn { flex: none; width: 44px; height: 44px; display: grid; place-items: center; background: transparent; border: 1px solid transparent; color: var(--text-2); cursor: pointer; }
+.icon-btn:hover { border-color: var(--line-3); color: #fff; }
+
+.btn { position: relative; min-height: 56px; padding: 0 34px; background: var(--red-deep); color: #fff; border: 0; cursor: pointer; font: 600 14px/1 var(--f-mono); letter-spacing: .2em; text-transform: uppercase; box-shadow: 0 0 0 1px var(--red) inset; transition: background .2s, transform .2s; }
+.btn:hover { background: #c0161f; transform: translateY(-2px); }
+.btn:hover::after { content: ''; position: absolute; inset: -6px; border: 1px solid #a3121a88; animation: pulse 1.2s ease-out infinite; }
+@keyframes pulse { from { opacity: 1; inset: -2px; } to { opacity: 0; inset: -14px; } }
+
+@keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes blink { 50% { opacity: 0; } }

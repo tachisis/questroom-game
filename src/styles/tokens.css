@@ -1,0 +1,27 @@
+/* Design tokens: palette and type. Change here, the whole site follows. */
+:root {
+  --ink: #06070a;          /* page black */
+  --ink-2: #0a0f1d;        /* about block */
+  --navy: #0b0f19;         /* panels */
+  --navy-2: #0e1730;       /* photo placeholder */
+  --navy-3: #0f1524;       /* messenger chrome */
+  --line: #2b3754;
+  --line-2: #1d2740;
+  --line-3: #3a4766;
+  --paper: #ece8df;        /* headings */
+  --text: #e7e4dc;
+  --text-2: #c9ccd3;
+  --muted: #8b93a3;
+  --red: #d9353b;
+  --red-2: #e2363c;
+  --red-deep: #a3121a;
+  --red-soft: #ff6b6f;
+  --blood: #c4161f;        /* prologue block */
+
+  --f-display: 'Oswald', sans-serif;
+  --f-serif: 'Cormorant Garamond', serif;
+  --f-mono: 'IBM Plex Mono', monospace;
+  --f-sans: 'IBM Plex Sans', system-ui, sans-serif;
+
+  --gutter: clamp(16px, 4vw, 48px);
+}

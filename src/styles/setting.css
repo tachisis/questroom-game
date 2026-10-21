@@ -1,0 +1,25 @@
+.world-sec { padding: 96px 0 48px; background: radial-gradient(ellipse at 50% 0%, #131e38 0%, var(--ink) 70%); }
+.set-lead { margin: 40px 0 32px; max-width: 920px; font: italic 600 clamp(28px, 3.6vw, 46px)/1.2 var(--f-serif); color: var(--paper); }
+.set-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; margin-top: 64px; align-items: start; }
+.set-text h3 { margin: 32px 0 16px; font: 500 12px/1 var(--f-mono); letter-spacing: .28em; text-transform: uppercase; color: var(--red); }
+.set-text p { margin: 0 0 14px; max-width: 680px; font: 400 18px/1.7 var(--f-sans); color: var(--text-2); }
+.set-text p.accent { font: italic 600 clamp(24px, 2.6vw, 32px)/1.3 var(--f-serif); color: var(--paper); }
+
+.set-facts { position: sticky; top: 100px; margin: 0; border-top: 1px solid var(--line); }
+.set-facts div { padding: 16px 0; border-bottom: 1px solid var(--line-2); }
+.set-facts dt { margin: 0 0 6px; font: 500 11px/1.3 var(--f-mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.set-facts dd { margin: 0; font: 500 20px/1.3 var(--f-display); color: var(--paper); }
+.set-facts dd.red { color: var(--red-2); }
+
+/* neon line: dim until scrolled into view, then ignites and flickers */
+.neon-wrap { margin: 20px 0 0; padding: 12px 0; text-align: left; }
+.set-text .neon { margin: 0 0 14px; max-width: none; font: 700 40px/1.25 var(--f-sans); letter-spacing: 2px; color: #ff3b3b; text-shadow: 0 0 4px #ff6a6a, 0 0 12px #ff1f1f, 0 0 28px #e60000, 0 0 56px #b30000; opacity: .04; }
+.neon.on { animation: neonIgnite 4.5s ease-in forwards, neonFlicker 7s linear 4.5s infinite; }
+@keyframes neonIgnite { 0% { opacity: .04; } 10% { opacity: .04; } 12% { opacity: .5; } 14% { opacity: .06; } 22% { opacity: .7; } 24% { opacity: .1; } 34% { opacity: .85; } 36% { opacity: .25; } 50% { opacity: .95; } 58% { opacity: .5; } 66% { opacity: 1; } 100% { opacity: 1; } }
+@keyframes neonFlicker { 0%, 18%, 22%, 62%, 66%, 100% { opacity: 1; } 20% { opacity: .35; } 24% { opacity: .8; } 64% { opacity: .2; } 68% { opacity: .9; } 70% { opacity: .4; } 72% { opacity: 1; } }
+
+/* «Три года назад» is struck out at mid-screen, then «Или Квест был всегда?» ignites above the paragraph */
+.rewrite s { text-decoration: none; background: linear-gradient(var(--red), var(--red)) 0 55% / 0 2px no-repeat; transition: background-size .9s ease-in-out; }
+.rewrite.on s { background-size: 100% 2px; }
+.set-text .rewrite .neon { margin: 20px 0 6px; font-size: 24px; }
+.rewrite.on .neon { animation: neonIgnite 1.6s ease-in .9s forwards, neonFlicker 3s linear 2.5s infinite; }

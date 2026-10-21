@@ -1,0 +1,10 @@
+/* Red block; an inverted dead-tree silhouette (animated transparent WebP) hangs from the top edge */
+.blood-sec { position: relative; overflow: hidden; padding: calc(21vw + 24px) 0 clamp(80px, 10vw, 160px); background: var(--blood) url('/img/fx/trees.webp') center top / 100% auto no-repeat; }
+.rv-wrap { position: relative; overflow: hidden; padding: .1em 0 .25em; }
+.rv { width: 90%; margin: 0 auto; font: 600 4.2vw/1.08 var(--f-display); text-transform: uppercase; letter-spacing: .01em; color: var(--ink); }
+.rv .space { display: inline-block; width: 25vw; }
+/* SplitType wraps every word in .word; GSAP animates them (src/modules/reveal.js) */
+.rv .word { display: inline-block; backface-visibility: hidden; transform: translateZ(0); }
+/* until JS has split the text, keep it hidden (no flash of the final state) */
+.js .rv-text:not(.is-split) { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) { .js .rv-text:not(.is-split) { visibility: visible; } }

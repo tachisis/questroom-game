@@ -1,0 +1,39 @@
+@media (max-width: 1000px) {
+  .set-grid { grid-template-columns: 1fr; }
+  .set-facts { position: static; }
+  .cast { grid-template-columns: 1fr; gap: 28px; }
+  .cast-title { position: relative; justify-self: start; writing-mode: horizontal-tb; transform: none; font-size: 34px; }
+  .cast-grid.players { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
+  .cast-grid.npcs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .credits { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  /* header: REC dot, equalizer, menu in one row without overlap */
+  .hdr { gap: 12px; }
+  .rec { font-size: 0; gap: 0; }
+  .eq { position: static; transform: none; margin-right: auto; padding: 0 8px; }
+  .nav { gap: 14px; }
+  .nav a { font-size: 11px; letter-spacing: .1em; }
+
+  .title { font-size: clamp(48px, 14vw, 80px); }
+  .tk-clock { display: none; }
+  .tk-label { padding: 0 12px; font-size: 11px; }
+
+  .chars-head .lede { text-align: left; }
+  .cast-grid.players { gap: 32px 16px; }
+  .cast-grid.npcs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
+  .cast-title { font-size: 30px; }
+
+  .rv { width: 92%; font-size: 7.2vw; }
+  .rv .space { width: 14vw; }
+  .blood-sec { padding-bottom: 64px; }
+
+  .set-text .neon { font-size: 30px; }
+  .about { min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+  .tk-track { animation: none !important; }
+}

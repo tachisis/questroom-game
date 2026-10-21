@@ -1,0 +1,37 @@
+.chars-sec { position: relative; padding: clamp(40px, 5vw, 70px) 0 clamp(80px, 10vw, 140px); background: var(--ink); }
+.chars-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 64px; }
+.chars-head .lede { max-width: 380px; margin: 0; text-align: right; font: 400 15px/1.6 var(--f-sans); color: var(--muted); }
+
+/* a block = vertical title on the left + grid of cards */
+.cast { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); margin-top: 16px; }
+.cast + .whisper { padding: clamp(40px, 4.5vw, 64px) 16px; }
+.cast-title { position: sticky; top: 110px; align-self: start; justify-self: center; margin: 0; display: flex; align-items: center; gap: 16px; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font: 600 clamp(32px, 3vw, 44px)/1 var(--f-display); letter-spacing: .04em; text-transform: uppercase; color: var(--paper); }
+.cast-title small { font: 500 12px/1 var(--f-mono); letter-spacing: .24em; color: var(--red); }
+
+.cast-grid { display: grid; gap: 36px 20px; }
+.cast-grid.players { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.cast-grid.npcs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+/* the whole grid shivers while a card is hovered (mouse only: on touch screens :hover sticks after a tap) */
+@media (hover: hover) {
+  .cast:has(.card:hover) .cast-grid { animation: disturb .9s ease-in-out infinite; }
+  .card:hover { transform: scale(1.05) translateY(-4px); z-index: 2; }
+  .card:hover .photo { border-color: var(--red); box-shadow: 0 0 0 1px var(--red), 0 18px 50px #a3121a40; }
+  .card:hover .photo .sil { color: var(--red); }
+}
+@keyframes disturb { 0%, 100% { transform: none; } 20% { transform: translate(1px, -1px) rotate(.12deg); } 45% { transform: translate(-1px, 1px) rotate(-.1deg); } 70% { transform: translate(1px, 0) rotate(.06deg); } }
+
+.card { display: flex; flex-direction: column; align-items: stretch; padding: 0; background: none; border: 0; text-align: left; cursor: pointer; transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+.card:focus-visible { transform: scale(1.05) translateY(-4px); z-index: 2; outline: 2px solid var(--red); outline-offset: 6px; }
+.card:focus-visible .photo { border-color: var(--red); }
+.photo { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 3 / 4; overflow: hidden; background: var(--navy-2); border: 1px solid var(--line); transition: border-color .3s, box-shadow .3s; }
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(.35) contrast(1.05); }
+.photo::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(#00000000 0 2px, #00000040 2px 3px), linear-gradient(#06070a00 55%, #06070acc); }
+/* shown when photo is null */
+.sil { position: absolute; inset: 0; color: var(--line-3); background: currentColor; transition: color .3s;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='34' r='20'/><path d='M8 100c0-26 19-42 42-42s42 16 42 42z'/></svg>") 50% 100% / 80% auto no-repeat; }
+.photo .tag { position: absolute; left: 10px; top: 10px; z-index: 1; font: 500 10px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+.c-name { margin-top: 14px; font: 600 18px/1.2 var(--f-sans); color: var(--text); overflow-wrap: anywhere; }
+.players .c-name { font: 500 18px/1.2 var(--f-display); text-transform: uppercase; letter-spacing: .02em; }
+.c-sub { margin-top: 6px; font: 500 11px/1.35 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.players .c-sub { font-size: 12px; color: var(--red-soft); }

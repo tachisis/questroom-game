@@ -1,0 +1,63 @@
+/* ---------- phone with the messenger, over everything ---------- */
+.ph-scrim { position: fixed; inset: 0; z-index: 50; width: 100%; padding: 0; border: 0; background: #030407a6; backdrop-filter: blur(3px); cursor: pointer; animation: scrimIn 1.2s ease both; }
+.phone-layer.closing .ph-scrim { animation: scrimOut .5s ease both; }
+@keyframes scrimIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scrimOut { to { opacity: 0; } }
+
+.phone-wrap { position: fixed; inset: 0; z-index: 51; display: grid; place-items: center; pointer-events: none; }
+/* always fits the window height (and width on narrow screens) */
+.phone {
+  pointer-events: auto; position: relative;
+  height: min(calc(100vh - 40px), calc((100vw - 32px) * 19 / 9));
+  height: min(calc(100dvh - 40px), calc((100vw - 32px) * 19 / 9));
+  aspect-ratio: 9 / 19; padding: 10px; border-radius: 46px; background: #020305;
+  box-shadow: 0 0 0 1px var(--line-3), 0 0 0 4px var(--navy), 0 60px 140px #000, 0 0 90px #a3121a2e;
+  animation: phoneIn 1.5s cubic-bezier(.16, .84, .24, 1) both;
+}
+.phone-layer.closing .phone { animation: phoneOut .5s ease-in both; }
+@keyframes phoneIn { 0% { opacity: 0; transform: translateY(110px) rotate(-5deg) scale(.88); filter: blur(8px); } 50% { opacity: 1; filter: blur(0); } 100% { opacity: 1; transform: none; filter: none; } }
+@keyframes phoneOut { to { opacity: 0; transform: translateY(70px) scale(.94); } }
+
+.screen { position: relative; height: 100%; display: flex; flex-direction: column; border-radius: 36px; overflow: hidden; background: #0a0e18; }
+.island { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 2; width: 92px; height: 26px; border-radius: 13px; background: #000; }
+
+.m-head { display: flex; align-items: center; gap: 8px; padding: 44px 12px 10px 4px; background: var(--navy-3); border-bottom: 1px solid var(--line-2); }
+.m-av { flex: none; width: 40px; height: 40px; border-radius: 50%; background: #1b2440; display: grid; place-items: center; font: 400 17px/1 var(--f-display); color: var(--red); }
+.m-who { flex: 1; min-width: 0; }
+.m-who b { display: block; font: 600 15px/1.2 var(--f-sans); color: var(--text); }
+.m-who span { font: 400 12px/1.3 var(--f-sans); color: var(--muted); }
+.m-who span.typ { color: var(--red-soft); }
+
+/* one close button: outside the phone where there is room, inside the screen where there is not */
+.m-close { display: none; margin-left: auto; border-radius: 50%; }
+.m-close:hover { border-color: var(--red-deep); color: var(--red-soft); }
+.phone-x { position: absolute; top: -6px; right: -58px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); border: 1px solid var(--line-3); color: var(--text); cursor: pointer; transition: border-color .2s, color .2s, transform .2s; }
+.phone-x:hover { border-color: var(--red); color: var(--red-soft); transform: rotate(90deg); }
+@media (max-width: 560px), (max-aspect-ratio: 3/5) { .phone-x { display: none; } .m-close { display: grid; } }
+
+.m-feed { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 8px; padding: 14px 12px; background: radial-gradient(#ffffff08 1px, #0000 1.5px) 0 0 / 18px 18px, linear-gradient(#0a0e18, #0b1222); }
+.m-day { align-self: center; margin-bottom: auto; padding: 6px 10px; border-radius: 10px; background: var(--navy-3); font: 500 11px/1 var(--f-mono); letter-spacing: .08em; color: var(--muted); }
+
+.bub { max-width: 88%; padding: 10px 12px 8px; border-radius: 16px; font: 400 14px/1.45 var(--f-sans); color: var(--text); animation: bubIn .5s cubic-bezier(.2, .8, .2, 1) both; }
+.bub p { margin: 0 0 6px; }
+.bub.in { align-self: flex-start; background: #172036; border-bottom-left-radius: 4px; }
+.bub.out { align-self: flex-end; background: #7a1219; border-bottom-right-radius: 4px; }
+.bub .lbl { margin: 8px 0 2px; font: 500 10px/1 var(--f-mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.bub .sum { margin: 0; white-space: nowrap; font: 500 min(24px, 6vw)/1.2 var(--f-mono); color: #ff5a60; }
+.bub time { display: block; text-align: right; font: 400 11px/1 var(--f-mono); color: var(--muted); }
+.bub.out time { color: #f0c9cb; }
+@keyframes bubIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+
+.typing { align-self: flex-start; display: flex; gap: 4px; padding: 13px 14px; border-radius: 16px; border-bottom-left-radius: 4px; background: #172036; animation: bubIn .4s ease both; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: dots 1.2s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; }
+.typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes dots { 0%, 60%, 100% { opacity: .3; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+
+.m-input { display: flex; align-items: center; gap: 8px; margin: 0; padding: 10px 10px 16px; background: var(--navy-3); border-top: 1px solid var(--line-2); }
+.m-input input { flex: 1; min-width: 0; height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid var(--line); background: #0a0e18; color: var(--text); font: 400 15px/1 var(--f-sans); outline: none; }
+.m-input input::placeholder { color: var(--muted); }
+.m-input input:focus { border-color: var(--red); }
+.m-input input:disabled { opacity: .55; }
+.send { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--red-deep); color: #fff; display: grid; place-items: center; cursor: pointer; }
+.send:disabled { background: var(--line); cursor: default; }
