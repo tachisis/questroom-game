@@ -12,6 +12,12 @@ import { initGame } from './modules/game.js';
 
 document.documentElement.classList.add('js');
 
+// Safari on macOS 10.15 and older can't decode WebP: an <img> that fails gets the .jpg next to it
+document.addEventListener('error', (e) => {
+  const img = e.target;
+  if (img.tagName === 'IMG' && img.src.endsWith('.webp')) img.src = img.src.replace(/\.webp$/, '.jpg');
+}, true);
+
 async function boot() {
   // lock first: the page must not scroll while the data is still on its way
   const lock = createScrollLock();

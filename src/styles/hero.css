@@ -3,17 +3,18 @@
 .layer { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity .35s ease .08s; }
 .layer.on { opacity: 1; }
 /* only the visible background loads at first; the rest wait for window load (hero.js adds .all-bgs) */
-.bg-city.on, .hero.all-bgs .bg-city { background-image: url('/img/hero/city.webp'); }
-.bg-park.on, .hero.all-bgs .bg-park { background-image: url('/img/hero/park.webp'); }
-.bg-forest.on, .hero.all-bgs .bg-forest { background-image: url('/img/hero/forest.webp'); }
+/* first line is for Safari on macOS 10.15 and older (no WebP, no image-set type()); everyone else takes the WebP */
+.bg-city.on, .hero.all-bgs .bg-city { background-image: url('/img/hero/city.jpg'); background-image: image-set(url('/img/hero/city.webp') type('image/webp'), url('/img/hero/city.jpg') type('image/jpeg')); }
+.bg-park.on, .hero.all-bgs .bg-park { background-image: url('/img/hero/park.jpg'); background-image: image-set(url('/img/hero/park.webp') type('image/webp'), url('/img/hero/park.jpg') type('image/jpeg')); }
+.bg-forest.on, .hero.all-bgs .bg-forest { background-image: url('/img/hero/forest.jpg'); background-image: image-set(url('/img/hero/forest.webp') type('image/webp'), url('/img/hero/forest.jpg') type('image/jpeg')); }
 
 .hero .jitter { position: absolute; inset: 0; animation: jitter 7s steps(1) infinite; }
 @keyframes jitter { 0%, 100% { transform: none; } 31% { transform: translate(-3px, 1px); } 31.6% { transform: none; } 58% { transform: translate(2px, -2px) skewX(.6deg); } 58.4% { transform: none; } 86% { transform: translate(-1px, 3px); } 86.3% { transform: none; } }
 
 .slice { position: absolute; inset: 0; background-size: cover; background-position: center; mix-blend-mode: screen; opacity: 0; }
-.hero.city .slice { background-image: url('/img/hero/city.webp'); }
-.hero.park .slice { background-image: url('/img/hero/park.webp'); }
-.hero.forest .slice { background-image: url('/img/hero/forest.webp'); }
+.hero.city .slice { background-image: url('/img/hero/city.jpg'); background-image: image-set(url('/img/hero/city.webp') type('image/webp'), url('/img/hero/city.jpg') type('image/jpeg')); }
+.hero.park .slice { background-image: url('/img/hero/park.jpg'); background-image: image-set(url('/img/hero/park.webp') type('image/webp'), url('/img/hero/park.jpg') type('image/jpeg')); }
+.hero.forest .slice { background-image: url('/img/hero/forest.jpg'); background-image: image-set(url('/img/hero/forest.webp') type('image/webp'), url('/img/hero/forest.jpg') type('image/jpeg')); }
 .slice.r { filter: sepia(1) saturate(6) hue-rotate(-50deg) brightness(.8); animation: sliceR 5.3s steps(1) infinite; }
 .slice.b { filter: sepia(1) saturate(5) hue-rotate(170deg) brightness(.7); animation: sliceB 6.7s steps(1) infinite; }
 @keyframes sliceR { 0%, 100% { opacity: 0; } 40% { opacity: .55; clip-path: inset(22% 0 66% 0); transform: translateX(-14px); } 41% { clip-path: inset(61% 0 30% 0); transform: translateX(10px); } 42% { opacity: 0; } 77% { opacity: .5; clip-path: inset(8% 0 86% 0); transform: translateX(18px); } 77.8% { opacity: 0; } }

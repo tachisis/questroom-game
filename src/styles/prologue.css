@@ -1,6 +1,6 @@
 .blood-sec { position: relative; overflow: hidden; padding: calc(21vw + 24px) 0 clamp(80px, 10vw, 160px); background: var(--blood) center top / 100% auto no-repeat; }
 /* trees load only after «Да»: until then the block is out of reach anyway */
-.is-unlocked .blood-sec { background-image: url('/img/fx/trees.webp'); }
+.is-unlocked .blood-sec { background-image: url('/img/fx/trees.png'); background-image: image-set(url('/img/fx/trees.webp') type('image/webp'), url('/img/fx/trees.png') type('image/png')); }
 .rv-wrap { position: relative; overflow: hidden; padding: .1em 0 .25em; }
 .rv { width: 90%; margin: 0 auto; font: 600 4.2vw/1.08 var(--f-display); text-transform: uppercase; letter-spacing: .01em; color: var(--ink); }
 .rv .space { display: inline-block; width: 25vw; }
