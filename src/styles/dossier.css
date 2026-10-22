@@ -26,6 +26,6 @@
 .reveal[hidden] { display: none; }
 .panel-top .eyebrow { margin: 0; font: 500 12px/1 var(--f-mono); }
 
-/* \n в тексте досье = перенос строки */
+/* \n in dossier text = line break */
 [data-d-bio] p, [data-d-secret] { white-space: pre-line; }
 [data-d-secret]:focus { outline: none; }  /* focus lands here after «Раскрыть», the button itself disappears */

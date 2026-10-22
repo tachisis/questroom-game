@@ -11,6 +11,8 @@ export function createScrollLock() {
     body.classList.toggle('is-locked', !state.unlocked);
     rest.forEach((node) => { node.inert = !state.unlocked; });
   };
+  // iOS Safari restores the old position on reload, after this runs and past the lock
+  history.scrollRestoration = 'manual';
   window.scrollTo(0, 0);
   apply();
 

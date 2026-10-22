@@ -17,19 +17,29 @@ export function createMusic(cfg, { isUnlocked }) {
       const a = new Audio();
       a.preload = 'auto';
       a.loop = true;
-      a.volume = 0;
       a.src = `${cfg.tracks[zone]}.${ext}`;
+      // iOS ignores audio.volume, so the level goes through a Web Audio gain wherever there is one
+      if (ctx) {
+        a._gain = ctx.createGain();
+        ctx.createMediaElementSource(a).connect(a._gain).connect(ctx.destination);
+      }
+      vol(a, 0);
       tracks[zone] = a;
     }
     return tracks[zone];
   };
 
+  function vol(a, v) {
+    if (v === undefined) return a._gain ? a._gain.gain.value : a.volume;
+    if (a._gain) a._gain.gain.value = v; else a.volume = v;
+  }
+
   const fade = (a, to, ms, done) => {
     if (a._fade) clearInterval(a._fade);
-    const from = a.volume, t0 = performance.now();
+    const from = vol(a), t0 = performance.now();
     a._fade = setInterval(() => {
       const k = Math.min(1, (performance.now() - t0) / ms);
-      a.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+      vol(a, Math.max(0, Math.min(1, from + (to - from) * k)));
       if (k >= 1) { clearInterval(a._fade); a._fade = 0; done && done(); }
     }, 30);
   };
@@ -54,11 +64,11 @@ export function createMusic(cfg, { isUnlocked }) {
     const start = () => {
       if (my !== token || !wanted) return;
       const a = get(zone);
-      a.volume = 0;
+      vol(a, 0);
       a.play().catch(() => {});
       fade(a, cfg.volume, cfg.fadeInMs);
     };
-    if (prev && !prev.paused && prev.volume > 0.01) fade(prev, 0, cfg.fadeOutMs, () => { prev.pause(); start(); });
+    if (prev && !prev.paused && vol(prev) > 0.01) fade(prev, 0, cfg.fadeOutMs, () => { prev.pause(); start(); });
     else start();
   };
 
@@ -74,6 +84,14 @@ export function createMusic(cfg, { isUnlocked }) {
         ctx && ctx.resume();
       } catch { /* no ping then */ }
       play(zoneNow());
+      // iOS lets an <audio> play() without a tap only once a tap has called play() on it: unlock the other tracks inside this one.
+      // pause() right away, not after the promise: Safari may never settle it and the track would keep playing
+      Object.keys(cfg.tracks).forEach((z) => {
+        const a = get(z);
+        if (z === current || !a.paused) return;
+        a.play().catch(() => {});
+        a.pause();
+      });
       emit();
     },
     stop() {

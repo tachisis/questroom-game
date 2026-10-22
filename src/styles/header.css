@@ -16,7 +16,6 @@
   background: transparent; border: 1px solid transparent; border-radius: 2px; cursor: pointer;
   transition: border-color .25s, background .25s;
 }
-.eq:hover, .eq:focus-visible { border-color: var(--line-3); background: #0c1428cc; }
 .eq-bars { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 20px; }
 .eq-bars i { display: block; width: 3px; background: var(--red); transform-origin: bottom; opacity: .55; transition: opacity .25s; }
 .eq.on .eq-bars i { opacity: 1; animation: eq 1.1s ease-in-out infinite; }
@@ -26,10 +25,14 @@
 .eq.on .eq-bars i:nth-child(5) { animation-duration: 1s; animation-delay: -.8s; }
 .eq.on .eq-bars i:nth-child(6) { animation-duration: .9s; animation-delay: -.45s; }
 .eq.on .eq-bars i:nth-child(7) { animation-duration: 1.2s; animation-delay: -.1s; }
-.eq:hover .eq-bars i, .eq:focus-visible .eq-bars i { opacity: .18; }
 @keyframes eq { 0%, 100% { transform: scaleY(.2); } 50% { transform: scaleY(1); } }
 .eq-hint { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text); opacity: 0; transform: scale(.85); transition: opacity .25s, transform .25s; pointer-events: none; }
-.eq:hover .eq-hint, .eq:focus-visible .eq-hint { opacity: 1; transform: none; }
+/* mouse only: on touch screens :hover sticks after a tap and the hint icon would stay on */
+@media (hover: hover) {
+  .eq:hover, .eq:focus-visible { border-color: var(--line-3); background: #0c1428cc; }
+  .eq:hover .eq-bars i, .eq:focus-visible .eq-bars i { opacity: .18; }
+  .eq:hover .eq-hint, .eq:focus-visible .eq-hint { opacity: 1; transform: none; }
+}
 .eq-hint svg { grid-area: 1 / 1; }
 .eq .ico-mute { display: none; }
 .eq.on .ico-mute { display: block; }

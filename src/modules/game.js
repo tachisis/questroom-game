@@ -12,9 +12,6 @@ const pelmeni = (n) => `${n} ${PELMENI[plural.select(n)]}`;
 
 const randomBetween = (min, max) => min + Math.random() * (max - min);
 
-// Хранит флаг «уже вызывали».
-// Возвращает обёртку над fn: первый вызов запускает fn, остальные ничего не делают.
-// reset() снимает флаг, и следующий вызов снова сработает.
 function once(fn) {
   let called = false;
   function wrapped(...args) {
@@ -26,9 +23,6 @@ function once(fn) {
   return wrapped;
 }
 
-// Хранит текущий счёт и рекорд за сессию.
-// Возвращает { add, reset, commit }: add() прибавляет очко и выводит его,
-// reset() обнуляет счёт (рекорд не трогает), commit() обновляет рекорд и отдаёт { value, best }.
 function makeScore(node) {
   let value = 0;
   let best = 0;
@@ -43,9 +37,6 @@ function makeScore(node) {
   };
 }
 
-// Хранит timerId надписи «+1 пельмень».
-// Возвращает { show, hide }: show() показывает надпись заново (старый таймер отменяется,
-// анимация перезапускается) и прячет её через ms; hide() прячет сразу и отменяет таймер.
 function makePop(node, ms) {
   let timerId = null;
   function hide() {
@@ -56,7 +47,7 @@ function makePop(node, ms) {
   return {
     show() {
       hide();
-      void node.offsetWidth; // браузер «замечает» display: none, поэтому CSS-анимация стартует с начала
+      void node.offsetWidth; // flush display: none so the CSS animation restarts
       node.hidden = false;
       timerId = setTimeout(hide, ms);
     },
@@ -64,10 +55,7 @@ function makePop(node, ms) {
   };
 }
 
-// Хранит timerId скрытия пса в этом укрытии и колбэк onGone («пёс ушёл»).
-// Возвращает { show, hide }: show(ms, onGone) показывает пса на ms и вызовет onGone,
-// когда он уйдёт сам или его поймают; hide() прячет пса молча, без onGone.
-// Клик по видимому псу вызывает onCatch; клики по уже спрятанному псу игнорируются.
+// onGone fires when the dog leaves on its own or is caught; hide() is silent.
 function makeSpot(el, onCatch) {
   const dog = $('[data-dog]', el);
   let timerId = null;
@@ -105,9 +93,6 @@ function makeSpot(el, onCatch) {
   };
 }
 
-// Хранит timerId следующего тика и сколько секунд осталось.
-// Возвращает { start, stop }: start() показывает полное время и раз в секунду
-// вызывает onTick(left), на нуле — onEnd(); stop() обрывает цепочку.
 function makeCountdown(seconds, onTick, onEnd) {
   let timerId = null;
   let left = seconds;
@@ -133,10 +118,7 @@ function makeCountdown(seconds, onTick, onEnd) {
   };
 }
 
-// Хранит timerId паузы перед следующим появлением и укрытие, где пёс был в прошлый раз.
-// Возвращает { start, stop }: start() запускает цепочку «пауза → пёс выглядывает → пауза…»,
-// следующая пауза начинается только когда пёс ушёл, поэтому пёс всегда один;
-// stop() отменяет паузу и молча прячет всех псов.
+// The next pause starts only after the dog is gone, so there is never more than one dog.
 function makeSpawner(spots, peekMs) {
   let timerId = null;
   let last = null;
@@ -235,5 +217,5 @@ export function initGame() {
   q('[data-game-start]').addEventListener('click', start);
   q('[data-game-restart]').addEventListener('click', reset);
   q('[data-game-close]').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('close', reset); // крестик, Esc и dialog.close() приходят сюда
+  dialog.addEventListener('close', reset); // close button, Esc and dialog.close() all land here
 }

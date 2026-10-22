@@ -245,8 +245,7 @@
 <!-- WebGL fluid cursor (on/off: src/config.js → FLUID_CURSOR) -->
 <canvas id="fluid" class="fluid" aria-hidden="true" hidden></canvas>
 
-<!-- Открывается через dialog.showModal(). Состояния переключаются атрибутом hidden и классами,
-     логика — src/modules/game.js. Координаты объектов в % от карты 1200×656. -->
+<!-- Logic: src/modules/game.js. Spot coordinates are % of the 1200×656 map. -->
 <dialog class="pg" data-game aria-labelledby="pg-title">
   <svg class="pg-sprite" aria-hidden="true" focusable="false">
     <symbol id="pg-dog" viewBox="0 0 120 130">
@@ -346,7 +345,6 @@
         <g fill="#f0dcb4" opacity=".18"><circle cx="110" cy="40" r="12"/><circle cx="200" cy="52" r="12"/><circle cx="290" cy="58" r="12"/><circle cx="380" cy="58" r="12"/><circle cx="470" cy="50" r="12"/><circle cx="560" cy="36" r="12"/><circle cx="650" cy="30" r="12"/><circle cx="740" cy="42" r="12"/><circle cx="830" cy="54" r="12"/><circle cx="920" cy="58" r="12"/><circle cx="1010" cy="54" r="12"/><circle cx="1100" cy="42" r="12"/></g>
         </svg>
 
-        <!-- Особняк -->
         <div class="pg-spot" data-spot="mansion" style="left: 3.333%; top: 10.671%; width: 25%; height: 36.585%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у особняка" hidden style="left: 81.667%; top: 43.75%; width: 40%; height: 54.167%; --tilt: 12deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -371,7 +369,6 @@
           </svg>
         </div>
 
-        <!-- Цирковой шатёр -->
         <div class="pg-spot" data-spot="tent" style="left: 39.167%; top: 12.195%; width: 23.333%; height: 36.585%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у циркового шатра" hidden style="left: 79.286%; top: 49.167%; width: 42.857%; height: 54.167%; --tilt: 14deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -391,7 +388,6 @@
           </svg>
         </div>
 
-        <!-- Карусель -->
         <div class="pg-spot" data-spot="carousel" style="left: 71.667%; top: 16.768%; width: 23.333%; height: 33.537%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у карусели" hidden style="left: 52.143%; top: 33.636%; width: 42.857%; height: 59.091%; --tilt: -6deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -411,7 +407,6 @@
           </svg>
         </div>
 
-        <!-- Дерево -->
         <div class="pg-spot" data-spot="tree" style="left: 27.5%; top: 41.159%; width: 13.333%; height: 35.061%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у дерева" hidden style="left: 51.25%; top: 41.739%; width: 75%; height: 56.522%; --tilt: 14deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -425,7 +420,6 @@
           </svg>
         </div>
 
-        <!-- Могила -->
         <div class="pg-spot" data-spot="grave" style="left: 6.667%; top: 65.549%; width: 10%; height: 18.293%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у могилы" hidden style="left: 0%; top: -51.667%; width: 100%; height: 108.333%; --tilt: -10deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -442,7 +436,6 @@
           </svg>
         </div>
 
-        <!-- Клоун -->
         <div class="pg-spot" data-spot="clown" style="left: 40%; top: 59.451%; width: 11.667%; height: 33.537%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у клоуна" hidden style="left: 65.714%; top: 13.636%; width: 85.714%; height: 59.091%; --tilt: 16deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -469,7 +462,6 @@
           </svg>
         </div>
 
-        <!-- Куст -->
         <div class="pg-spot" data-spot="bush" style="left: 60%; top: 76.22%; width: 15%; height: 18.293%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у куста" hidden style="left: 22.222%; top: -48.333%; width: 66.667%; height: 108.333%; --tilt: -6deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -487,7 +479,6 @@
           </svg>
         </div>
 
-        <!-- Чёрный джип -->
         <div class="pg-spot" data-spot="jeep" style="left: 80%; top: 71.646%; width: 18.333%; height: 19.817%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у чёрного джипа" hidden style="left: 41.818%; top: -49.231%; width: 54.545%; height: 100%; --tilt: 8deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -515,7 +506,6 @@
           </svg>
         </div>
 
-        <!-- Касса -->
         <div class="pg-spot" data-spot="booth" style="left: 16.667%; top: 47.561%; width: 11.667%; height: 22.866%">
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у кассы" hidden style="left: 61.429%; top: 22.667%; width: 85.714%; height: 86.667%; --tilt: 12deg">
             <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
@@ -539,7 +529,6 @@
           </svg>
         </div>
 
-        <!-- Клетка-фургон -->
         <div class="pg-spot" data-spot="cage" style="left: 60%; top: 49.085%; width: 16.667%; height: 17.073%">
           <svg class="pg-spot-back" viewBox="0 0 200 112" aria-hidden="true"><rect x="22" y="22" width="156" height="60" fill="#070a0b"/></svg>
           <button class="pg-dog" type="button" data-dog aria-label="Поймать пса в клетке-фургоне" hidden style="left: 22%; top: -7.143%; width: 60%; height: 116.071%; --tilt: -6deg">
@@ -571,7 +560,6 @@
       </div>
     </section>
 
-    <!-- анимация стартует, когда секция становится видимой -->
     <section class="pg-over" data-game-screen="over" hidden>
       <div class="pg-over-stage" aria-hidden="true">
         <svg class="pg-over-dog" viewBox="0 0 120 130"><use href="#pg-dog"/></svg>

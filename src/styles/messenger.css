@@ -30,7 +30,7 @@
 
 /* one close button: outside the phone where there is room, inside the screen where there is not */
 .m-close { display: none; margin-left: auto; border-radius: 50%; }
-.m-close:hover { border-color: var(--red-deep); color: var(--red-soft); }
+@media (hover: hover) { .m-close:hover { border-color: var(--red-deep); color: var(--red-soft); } } /* :hover sticks after a tap */
 .phone-x { position: absolute; top: -6px; right: -58px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); border: 1px solid var(--line-3); color: var(--text); cursor: pointer; transition: border-color .2s, color .2s, transform .2s; }
 .phone-x:hover { border-color: var(--red); color: var(--red-soft); transform: rotate(90deg); }
 @media (max-width: 560px), (max-aspect-ratio: 3/5) { .phone-x { display: none; } .m-close { display: grid; } }
@@ -55,7 +55,7 @@
 @keyframes dots { 0%, 60%, 100% { opacity: .3; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
 
 .m-input { display: flex; align-items: center; gap: 8px; margin: 0; padding: 10px 10px 16px; background: var(--navy-3); border-top: 1px solid var(--line-2); }
-.m-input input { flex: 1; min-width: 0; height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid var(--line); background: #0a0e18; color: var(--text); font: 400 15px/1 var(--f-sans); outline: none; }
+.m-input input { flex: 1; min-width: 0; height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid var(--line); background: #0a0e18; color: var(--text); font: 400 16px/1 var(--f-sans); outline: none; } /* < 16px makes iOS zoom in on focus and stay zoomed */
 .m-input input::placeholder { color: var(--muted); }
 .m-input input:focus { border-color: var(--red); }
 .m-input input:disabled { opacity: .55; }
