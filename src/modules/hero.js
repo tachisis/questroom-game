@@ -49,4 +49,23 @@ export function initHero(cfg, news) {
   const track = $('[data-ticker]');
   [false, true].forEach((copy) => news.forEach((t) =>
     track.append(el('div', { class: 'tk-item', 'aria-hidden': copy ? 'true' : null }, [el('span', { text: '///' }), t]))));
+
+  // moved from JS, not a CSS animation: iOS Safari paints only part of an animated layer this wide, and the text vanishes
+  if (prefersReducedMotion()) return;
+  const ticker = track.closest('.ticker');
+  const mouse = matchMedia('(hover: hover)'); // on touch screens :hover sticks after a tap
+  let x = 0, last = 0;
+  const step = (t) => {
+    const dt = last ? t - last : 0;
+    last = t;
+    // paused while hovered or keyboard-focused (WCAG 2.2.2) and while the hero is off screen
+    const hold = hero.classList.contains('is-off') || ticker.matches(':focus-visible') || (mouse.matches && ticker.matches(':hover'));
+    if (!hold) {
+      const half = track.offsetWidth / 2;
+      x = (x + dt * half / cfg.tickerMs) % half;
+      track.style.transform = `translateX(${-x}px)`;
+    }
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
 }

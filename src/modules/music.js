@@ -24,6 +24,8 @@ export function createMusic(cfg, { isUnlocked }) {
         ctx.createMediaElementSource(a).connect(a._gain).connect(ctx.destination);
       }
       vol(a, 0);
+      // Safari may still start a track after the pause() that follows the unlock in start(): only the current one may play
+      a.addEventListener('playing', () => { if (!wanted || tracks[current] !== a) a.pause(); });
       tracks[zone] = a;
     }
     return tracks[zone];
@@ -120,6 +122,15 @@ export function createMusic(cfg, { isUnlocked }) {
       });
     }
   };
+
+  // iOS pauses the audio by itself (screen lock, a call, a long idle) and never resumes it: the next tap brings it back
+  const revive = () => {
+    if (!wanted || !current) return;
+    if (ctx && ctx.state !== 'running') ctx.resume();
+    if (Object.values(tracks).every((a) => a.paused)) play(current); // not mid-crossfade
+  };
+  ['touchend', 'click'].forEach((t) => document.addEventListener(t, revive));
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) revive(); });
 
   // «Персонажи» is reached when its top passes charsZoneAt of the viewport, and stays reached everywhere below
   const chars = document.getElementById('characters');

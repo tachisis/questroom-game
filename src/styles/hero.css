@@ -55,10 +55,8 @@
 .tk-label { flex: none; display: flex; align-items: center; gap: 10px; padding: 0 18px; background: var(--red-deep); color: #fff; font: 600 13px/1 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; }
 .tk-label b { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: blink 1s steps(1) infinite; }
 .tk-view { position: relative; flex: 1; display: flex; align-items: center; overflow: hidden; }
-.tk-track { display: flex; width: max-content; animation: marquee 90s linear infinite; }
-.ticker:hover .tk-track, .ticker:focus .tk-track { animation-play-state: paused; }  /* focus = keyboard way to stop it (WCAG 2.2.2) */
+.tk-track { display: flex; width: max-content; } /* moved by hero.js */
 .ticker:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
-@keyframes marquee { to { transform: translateX(-50%); } }
 .tk-item { display: flex; align-items: center; gap: 28px; padding: 0 28px; white-space: nowrap; font: 400 15px/1 var(--f-mono); color: var(--text); }
 .tk-item span { color: var(--red); font-weight: 500; }
 .tk-clock { flex: none; display: flex; align-items: center; padding: 0 18px; border-left: 1px solid var(--line); font: 500 13px/1 var(--f-mono); letter-spacing: .1em; color: var(--text-2); }

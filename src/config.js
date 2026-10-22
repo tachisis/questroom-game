@@ -5,7 +5,8 @@ export const CONFIG = {
     backgrounds: ['city', 'park', 'forest'],
     switchEveryMs: 15000,             // backgrounds change by themselves with a short flash
     glitch: true,                     // TV glitches on the hero
-    grain: 0.6                        // 0…1, film grain strength
+    grain: 0.6,                       // 0…1, film grain strength
+    tickerMs: 90000                   // one full pass of the news ticker
   },
   music: {
     volume: 0.55,

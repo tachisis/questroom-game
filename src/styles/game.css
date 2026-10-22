@@ -82,7 +82,8 @@
 .pg-note-dog { position: relative; width: 96px; height: 104px; margin: 0 auto; background: radial-gradient(circle at 50% 55%, #2a0609, transparent 70%); }
 .pg-note-dog svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; animation: pg-note-good 4s steps(1) infinite; }
 .pg-note-dog .pg-note-evil { opacity: 0; filter: drop-shadow(2px 0 #d9353b) drop-shadow(-2px 0 #2a4f9b); animation-name: pg-note-evil; }
-.pg-note-text { margin: 20px 0 0; font: 500 13px/1.6 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--paper); }
+/* autofocus lands here, not on the close button: Safari would ring that button in blue */
+.pg-note-text { outline: none; margin: 20px 0 0; font: 500 13px/1.6 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--paper); }
 @keyframes pg-note-good { 0%, 74% { opacity: 1; transform: none; clip-path: inset(0); } 75% { transform: translate(-4px, 1px); clip-path: inset(0 0 55% 0); } 76.5% { transform: translate(5px, -1px); clip-path: inset(40% 0 0 0); } 78% { transform: none; clip-path: inset(0); } 80% { opacity: 0; } 92.5% { opacity: 1; transform: translate(3px, 0); } 94%, 100% { opacity: 1; transform: none; clip-path: inset(0); } }
 @keyframes pg-note-evil { 0%, 79% { opacity: 0; transform: none; clip-path: inset(0); } 80% { opacity: 1; transform: translate(-6px, 0); clip-path: inset(20% 0 30% 0); } 81.5% { transform: translate(4px, 1px); clip-path: inset(0); } 83% { transform: none; } 89% { transform: translate(-3px, 0); clip-path: inset(55% 0 10% 0); } 90% { transform: none; clip-path: inset(0); } 92.5%, 100% { opacity: 0; transform: none; clip-path: inset(0); } }
 

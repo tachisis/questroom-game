@@ -10,6 +10,8 @@ body {
 }
 /* page scroll is locked until the visitor answers «Да» */
 html.is-locked, body.is-locked { overflow: hidden; }
+/* iOS still scrolls the page up for the keyboard: nothing below the hero must show then */
+html.is-locked main > :not(.hero) { visibility: hidden; }
 
 a { color: var(--text); }
 a:hover { color: var(--red-soft); }
