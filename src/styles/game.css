@@ -2,6 +2,7 @@
    but never below 940px or the header wraps; very short windows scroll the popup instead. */
 .pg { width: min(1280px, 100vw - 32px, max(940px, (100dvh - 140px) * 1200 / 656)); max-width: none; max-height: calc(100dvh - 32px); padding: 0; overflow: auto; color: var(--text); background: var(--ink); border: 1px solid var(--line-2); border-radius: 2px; box-shadow: 0 0 0 1px var(--line-3), 0 0 0 4px var(--navy), 0 60px 140px #000, 0 0 90px #a3121a2e; }
 .pg::backdrop { background: #000000c7; }
+.pg + .backdrop { background: #000000c7; } /* dialog polyfill, see dossier.css */
 .pg[open] { animation: fadein .3s ease; }
 .pg-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 

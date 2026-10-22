@@ -19,6 +19,22 @@ document.addEventListener('error', (e) => {
 }, true);
 
 async function boot() {
+  // Safari before 15.4 has no <dialog>, and without it the quest phone never opens: the polyfill is downloaded only there
+  if (!('showModal' in document.createElement('dialog'))) {
+    const [{ default: dialogPolyfill }] = await Promise.all([
+      import('dialog-polyfill'),
+      import('dialog-polyfill/dist/dialog-polyfill.css')
+    ]);
+    document.querySelectorAll('dialog').forEach((d) => {
+      dialogPolyfill.registerDialog(d);
+      // the native dialog gives focus back on close, the polyfill doesn't
+      const showModal = d.showModal;
+      let back = null;
+      d.showModal = () => { back = document.activeElement; showModal(); };
+      d.addEventListener('close', () => back && back.focus());
+    });
+  }
+
   // lock first: the page must not scroll while the data is still on its way
   const lock = createScrollLock();
   // the cards are below the locked part, so the hero and the quest don't wait for them

@@ -1,6 +1,8 @@
 /* <dialog> over the whole screen: a click on its empty part (outside .panel) closes it, see characters.js */
-.dossier { width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: none; color: var(--text); overflow: hidden; cursor: pointer; }
+.dossier { width: 100%; height: 100%; max-width: none; max-height: none; position: fixed; top: 0; left: 0; margin: 0; padding: 0; border: 0; background: none; color: var(--text); overflow: hidden; cursor: pointer; }
 .dossier::backdrop { background: #000000b3; animation: scrimIn .3s ease; }
+/* the dialog polyfill (Safari < 15.4, see main.js) draws the scrim as a .backdrop sibling; own rule, or old Safari drops ::backdrop with it */
+.dossier + .backdrop { background: #000000b3; animation: scrimIn .3s ease; }
 .panel { position: fixed; top: 0; right: 0; bottom: 0; cursor: auto; width: min(75vw, 800px); overflow-y: auto; background: var(--navy); border-left: 1px solid var(--line); box-shadow: -30px 0 80px #000; outline: none; animation: slidein .45s cubic-bezier(.2, .8, .2, 1); }
 @keyframes slidein { from { transform: translateX(100%); } to { transform: none; } }
 .panel-top { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: 12px 12px 12px 28px; background: var(--navy); border-bottom: 1px solid var(--line-2); }

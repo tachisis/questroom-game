@@ -1,7 +1,7 @@
 import { $, $$, narrowOrTouch } from './util.js';
 
 const SECONDS = 30;
-const PEEK_MS = 1000;
+const PEEK_MS = 1200;
 const PAUSE_MIN_MS = 600;
 const PAUSE_MAX_MS = 1200;
 const POP_MS = 700;
@@ -75,11 +75,14 @@ function makeSpot(el, onCatch) {
     if (gone) gone();
   }
 
-  dog.addEventListener('click', () => {
+  function catchDog() {
     if (dog.hidden) return;
     onCatch();
     leave();
-  });
+  }
+  // catch on press: a click needs the release too, and the dog may be gone by then
+  dog.addEventListener('pointerdown', catchDog);
+  dog.addEventListener('click', catchDog); // keyboard; after a press the dog is already hidden
 
   return {
     show(ms, gone) {
