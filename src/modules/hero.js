@@ -1,4 +1,4 @@
-import { $, $$, el } from './util.js';
+import { $, $$, el, prefersReducedMotion } from './util.js';
 
 export function initHero(cfg, news) {
   const hero = $('.hero');
@@ -16,6 +16,12 @@ export function initHero(cfg, news) {
   };
   show(current);
 
+  const loadAll = () => hero.classList.add('all-bgs');
+  if (document.readyState === 'complete') loadAll();
+  else window.addEventListener('load', loadAll, { once: true });
+
+  new IntersectionObserver(([e]) => hero.classList.toggle('is-off', !e.isIntersecting)).observe(hero);
+
   setInterval(() => {
     const i = cfg.backgrounds.indexOf(current);
     flip += 1;
@@ -28,7 +34,7 @@ export function initHero(cfg, news) {
   const bg = $('[data-parallax-bg]');
   const title = $('[data-parallax-title]');
   let raf = 0;
-  window.addEventListener('scroll', () => {
+  if (!prefersReducedMotion()) window.addEventListener('scroll', () => {
     if (raf) return;
     raf = requestAnimationFrame(() => {
       raf = 0;
@@ -39,7 +45,8 @@ export function initHero(cfg, news) {
     });
   }, { passive: true });
 
-  // ticker: the list twice in a row for a seamless loop
+  // ticker: the list twice in a row for a seamless loop; screen readers get only the first copy
   const track = $('[data-ticker]');
-  news.concat(news).forEach((t) => track.append(el('div', { class: 'tk-item' }, [el('span', { text: '///' }), t])));
+  [false, true].forEach((copy) => news.forEach((t) =>
+    track.append(el('div', { class: 'tk-item', 'aria-hidden': copy ? 'true' : null }, [el('span', { text: '///' }), t]))));
 }

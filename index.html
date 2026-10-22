@@ -6,12 +6,26 @@
   <title>Квеструм</title>
   <link rel="icon" href="/favicon.svg">
   <meta name="description" content="Квеструм: хоррор, мистика, русреал. Россия, 2050 год. Автор: Окс">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <!-- link previews (Telegram, VK, WhatsApp, X, Facebook); scrapers need absolute URLs -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Квеструм">
+  <meta property="og:title" content="Квеструм">
+  <meta property="og:description" content="Хоррор, мистика, русреал. Россия, 2050 год. Словеска, автор: Окс">
+  <meta property="og:url" content="https://tachisis.github.io/questroom-game/">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:image" content="https://tachisis.github.io/questroom-game/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Квеструм — хоррор · мистика · русреал">
+  <meta property="og:image" content="https://tachisis.github.io/questroom-game/og-square.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- fonts are self-hosted (src/styles/fonts.css); the hero title's font is needed first -->
+  <link rel="preload" href="/fonts/oswald-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/src/styles/index.css">
 </head>
-<body class="is-locked">
+<body>
 
 <header class="hdr">
   <div class="rec"><b></b>Rec <span class="tc">· 23.10.2050 · 03:14:<span data-rec-sec>07</span></span></div>
@@ -35,6 +49,7 @@
   </nav>
 </header>
 
+<main>
 <section id="top" class="hero city" aria-label="Квеструм">
   <div class="tv" data-parallax-bg>
     <div class="jitter">
@@ -58,7 +73,7 @@
     <button class="btn cta" type="button" data-quest-start>Начать квест</button>
   </div>
 
-  <div class="ticker" role="marquee" aria-label="Актуальные новости">
+  <div class="ticker" role="marquee" aria-label="Актуальные новости" tabindex="0">
     <div class="tk-label"><b></b>Срочные новости</div>
     <div class="tk-view"><div class="tk-track" data-ticker></div></div>
     <div class="tk-clock">03:14 МСК</div>
@@ -70,40 +85,6 @@
     <span class="t-when" aria-hidden="true">сейчас</span>
   </button>
 </section>
-
-<div class="phone-layer" data-phone hidden>
-  <button class="ph-scrim" type="button" data-phone-minimize aria-label="Свернуть окно сообщения"></button>
-  <div class="phone-wrap">
-    <div class="phone">
-      <button class="phone-x" type="button" data-phone-reset aria-label="Убрать телефон и вернуться к началу" title="Убрать телефон">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <div class="screen">
-        <span class="island" aria-hidden="true"></span>
-        <div class="m-head">
-          <button class="icon-btn" type="button" data-phone-minimize aria-label="Свернуть окно сообщения">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-          </button>
-          <span class="m-av" aria-hidden="true">А</span>
-          <span class="m-who"><b data-sender>Аноним</b><span data-status>был(а) недавно</span></span>
-          <button class="icon-btn m-close" type="button" data-phone-reset aria-label="Закрыть телефон и вернуться к началу" title="Закрыть">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-          </button>
-        </div>
-        <div class="m-feed" aria-live="polite" data-feed>
-          <span class="m-day">Сегодня</span>
-        </div>
-        <div class="m-input">
-          <label class="sr" for="kv-reply">Ответ Анониму</label>
-          <input id="kv-reply" type="text" autocomplete="off" enterkeyhint="send" placeholder="Сообщение" disabled data-reply>
-          <button class="send" type="button" disabled data-send aria-label="Отправить">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <section id="world" class="world-sec">
   <div class="wrap">
@@ -191,10 +172,43 @@
     </div>
   </div>
 </section>
+</main>
 
-<div class="dossier" data-dossier hidden>
-  <button class="scrim" type="button" data-dossier-close aria-label="Закрыть досье"></button>
-  <aside class="panel" aria-label="Досье персонажа" tabindex="-1">
+<dialog class="phone-layer" data-phone aria-labelledby="m-sender">
+  <div class="phone-wrap">
+    <div class="phone">
+      <button class="phone-x" type="button" data-phone-reset aria-label="Убрать телефон и вернуться к началу" title="Убрать телефон">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="screen">
+        <span class="island" aria-hidden="true"></span>
+        <div class="m-head">
+          <button class="icon-btn" type="button" data-phone-minimize aria-label="Свернуть окно сообщения">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <span class="m-av" aria-hidden="true">А</span>
+          <span class="m-who"><b id="m-sender" data-sender>Аноним</b><span data-status>был(а) недавно</span></span>
+          <button class="icon-btn m-close" type="button" data-phone-reset aria-label="Закрыть телефон и вернуться к началу" title="Закрыть">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="m-feed" aria-live="polite" tabindex="-1" data-feed>
+          <span class="m-day">Сегодня</span>
+        </div>
+        <div class="m-input">
+          <label class="sr" for="kv-reply">Ответ Анониму</label>
+          <input id="kv-reply" type="text" autocomplete="off" enterkeyhint="send" placeholder="Сообщение" disabled data-reply>
+          <button class="send" type="button" disabled data-send aria-label="Отправить">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="dossier" data-dossier aria-labelledby="d-name">
+  <div class="panel" tabindex="-1">
     <div class="panel-top">
       <p class="eyebrow red">Досье</p>
       <button class="icon-btn" type="button" data-dossier-close aria-label="Закрыть">
@@ -204,7 +218,7 @@
     <div class="panel-head">
       <div>
         <p class="eyebrow" data-d-kind></p>
-        <h3 data-d-name></h3>
+        <h3 id="d-name" data-d-name></h3>
         <dl class="facts">
           <dt>Возраст</dt><dd data-d-age></dd>
           <dt>Занятие</dt><dd data-d-occupation></dd>
@@ -220,13 +234,13 @@
       <h4>Биография</h4>
       <div data-d-bio></div>
       <h4>Тайна</h4>
-      <p data-d-secret hidden></p>
+      <p data-d-secret tabindex="-1" hidden></p>
       <button class="reveal" type="button" data-d-reveal>Раскрыть
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </button>
     </div>
-  </aside>
-</div>
+  </div>
+</dialog>
 
 <!-- WebGL fluid cursor (on/off: src/config.js → FLUID_CURSOR) -->
 <canvas id="fluid" class="fluid" aria-hidden="true" hidden></canvas>
@@ -422,7 +436,7 @@
             <path d="M26 102 Q40 92 52 104 Q66 96 94 104 V112 H26 Z" fill="#2f3d2c"/>
             <rect x="56" y="26" width="8" height="30" fill="#3a4142"/>
             <rect x="48" y="34" width="24" height="8" fill="#3a4142"/>
-            <text x="60" y="82" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="700" letter-spacing="2" fill="#2e3536">R.I.P.</text>
+            <text x="60" y="82" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="2" fill="#2e3536">R.I.P.</text>
             <polyline points="82,50 76,62 84,70 78,84" fill="none" stroke="#2e3536" stroke-width="1.5"/>
             <path d="M14 112 l3 -10 l3 10 M100 112 l3 -12 l3 12" stroke="#2f3d2c" stroke-width="2" fill="none"/>
           </svg>
@@ -451,7 +465,7 @@
             <circle cx="67" cy="87" r="3" fill="#e86a5e"/>
             <path d="M42 106 Q70 132 98 106 Q70 120 42 106 Z" fill="#8f1f1a" stroke="#8f1f1a" stroke-width="3" stroke-linejoin="round"/>
             <rect x="34" y="138" width="72" height="16" rx="3" fill="#8f2b25"/>
-            <text x="70" y="150" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="700" letter-spacing="2" fill="#efe3cc">СМЕХ</text>
+            <text x="70" y="150" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" letter-spacing="2" fill="#efe3cc">СМЕХ</text>
           </svg>
         </div>
 

@@ -1,6 +1,6 @@
 # Квеструм — сайт-визитка
 
-Статический сайт словесной ролевой игры «Квеструм». Сборка — [Vite](https://vitejs.dev), без фреймворка: обычные HTML, CSS и JS-модули. Анимация текста в прологе сделана на GSAP + ScrollTrigger + SplitType. Любые другие npm-библиотеки подключаются так же.
+Статический сайт словесной ролевой игры «Квеструм». Сборка — [Vite](https://vitejs.dev), без фреймворка: обычные HTML, CSS и JS-модули. Зависимостей в рантайме нет: анимация текста в прологе — CSS-переходы + IntersectionObserver. Шрифты лежат в `public/fonts/` (подключены в `src/styles/fonts.css`), Google Fonts не используется.
 
 ## Запуск
 
@@ -33,7 +33,7 @@ src/
     quest.js               «Начать квест» → уведомление → телефон → «Да»
     characters.js          карточки и досье из JSON
     neon.js                неоновая фраза в «Сеттинге»
-    reveal.js              проявление слов в прологе (GSAP)
+    reveal.js              проявление слов в прологе (CSS-переходы)
     util.js
   lib/fluid-cursor.js      WebGL-курсор «жидкость» (выключен: CONFIG.FLUID_CURSOR)
 public/                    копируется в сборку как есть
@@ -46,11 +46,12 @@ public/                    копируется в сборку как есть
 
 ## Как добавить персонажа
 
-1. Положите фото 3:4 (например 600×800) в `public/img/characters/<id>.jpg`.
+1. Положите фото 3:4 в `public/img/characters/<id>.webp`, шириной не больше 600px:
+   `cwebp -q 78 -resize 600 0 photo.jpg -o public/img/characters/<id>.webp`. Исходники JPEG лежат в `../assets-src/`.
 2. Добавьте запись в `characters` в `public/data/characters.json`:
    ```json
    { "id": "new", "name": "Имя", "gender": "male", "group": "npc",
-     "subtitle": "Друг Коли", "photo": "img/characters/new.jpg",
+     "subtitle": "Друг Коли", "photo": "img/characters/new.webp",
      "age": null, "occupation": null, "status": null, "bio": [], "secret": null }
    ```
    Порядок в массиве — это порядок карточек. Карточка с `"pinLast": true` (Пельмень) всегда остаётся последней.

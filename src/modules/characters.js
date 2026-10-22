@@ -1,4 +1,4 @@
-import { $, $$, el } from './util.js';
+import { $, $$, el, prefersReducedMotion } from './util.js';
 import { openGame } from './game.js';
 
 export function initCharacters(data) {
@@ -11,9 +11,10 @@ export function initCharacters(data) {
   for (const c of ordered) {
     const isPlayer = c.group === 'player';
     if (isPlayer) playerNo += 1;
+    // alt="": the name is printed right under the photo, screen readers would hear it twice
     const photo = el('span', { class: 'photo' }, [
       c.photo
-        ? el('img', { src: c.photo, alt: c.name, loading: 'lazy', style: c.photoPosition ? `object-position:${c.photoPosition}` : null })
+        ? el('img', { src: c.photo, alt: '', loading: 'lazy', style: c.photoPosition ? `object-position:${c.photoPosition}` : null })
         : el('span', { class: 'sil' }),
       isPlayer ? el('span', { class: 'tag', text: String(playerNo).padStart(2, '0') }) : null
     ]);
@@ -54,13 +55,11 @@ export function initCharacters(data) {
   const panel = $('.panel', box);
   const f = (k) => $(`[data-d-${k}]`, box);
   const TBD = '[неизвестно]';
-  let lastFocus = null;
 
   function open(id) {
     const c = byId.get(id);
     if (!c) return;
     if (c.playGame) return openGame();
-    lastFocus = lastFocus || document.activeElement;
     const isPlayer = c.group === 'player';
     const img = f('photo');
     if (c.photo) { img.src = c.photo; img.alt = c.name; img.hidden = false; } else { img.hidden = true; }
@@ -78,20 +77,20 @@ export function initCharacters(data) {
     f('rels').replaceChildren(...relationsOf(id).map((r) =>
       el('button', { class: 'rel', type: 'button', onclick: () => open(r.id) }, [byId.get(r.id).name, el('span', { text: r.role })])
     ));
-    box.hidden = false;
-    panel.scrollTo({ top: 0, behavior: 'smooth' });
+    // <dialog> keeps focus inside, closes on Esc and returns focus to the card by itself
+    if (!box.open) box.showModal();
+    panel.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
     panel.focus({ preventScroll: true });
   }
 
-  function close() {
-    box.hidden = true;
-    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
-    lastFocus = null;
-  }
+  const close = () => box.close();
 
   $$('.card[data-id]').forEach((card) => card.addEventListener('click', () => open(card.dataset.id)));
-  f('reveal').addEventListener('click', () => { f('secret').hidden = false; f('reveal').hidden = true; });
+  f('reveal').addEventListener('click', () => {
+    f('secret').hidden = false;
+    f('reveal').hidden = true;
+    f('secret').focus(); // the button is gone, keep focus where the text appeared
+  });
   $$('[data-dossier-close]', box).forEach((b) => b.addEventListener('click', close));
-  // Esc inside the game dialog closes only the game; the dossier underneath stays open
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden && !$('dialog[open]')) close(); });
+  box.addEventListener('click', (e) => { if (e.target === box) close(); }); // the dimmed area outside .panel
 }

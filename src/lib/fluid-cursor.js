@@ -396,6 +396,7 @@ void main () {
       pointer.dx += dx; pointer.dy += dy;              // accumulate until next frame
       pointer.x = p.x; pointer.y = p.y;
       pointer.moved = true;
+      wake();
     }
 
     function onDown(e) {
@@ -404,14 +405,24 @@ void main () {
       var c = inkColor();
       c.r *= 10; c.g *= 10; c.b *= 10;
       splat(p.x, p.y, 10 * (Math.random() - 0.5), 30 * (Math.random() - 0.5), c);
+      wake();
     }
 
     // ---------------------------------------------------------------- loop
-    var raf = 0, last = performance.now();
+    // The loop sleeps once the ink has faded (no input for IDLE_MS) and wakes on the next mouse event,
+    // so an idle page costs no GPU. With DENSITY_DISSIPATION 5.5 the ink is at e^-14 after 2.5 s.
+    var IDLE_MS = 2500;
+    var raf = 0, last = performance.now(), lastInput = -Infinity;
+
+    function wake() {
+      lastInput = performance.now();
+      if (!raf && !document.hidden) { last = lastInput; raf = requestAnimationFrame(frame); }
+    }
 
     function frame() {
-      raf = requestAnimationFrame(frame);
       var now = performance.now();
+      if (now - lastInput > IDLE_MS) { raf = 0; return; }
+      raf = requestAnimationFrame(frame);
       var dt = Math.min((now - last) / 1000, 1 / 60);
       last = now;
       if (!resize()) return; // hidden (narrow screen) — skip work
@@ -427,13 +438,13 @@ void main () {
 
     function onVisibility() {
       if (document.hidden) { cancelAnimationFrame(raf); raf = 0; }
-      else if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+      else if (!raf && performance.now() - lastInput < IDLE_MS) { last = performance.now(); raf = requestAnimationFrame(frame); }
     }
 
     window.addEventListener('mousemove', onMove, { passive: true });
     window.addEventListener('mousedown', onDown, { passive: true });
     document.addEventListener('visibilitychange', onVisibility);
-    if (!document.hidden) raf = requestAnimationFrame(frame);
+    resize(); // real canvas size before the first mousemove, the loop itself starts only on input
 
     return {
       destroy: function () {

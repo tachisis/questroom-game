@@ -1,4 +1,4 @@
-import { $, $$ } from './util.js';
+import { $, $$, narrowOrTouch } from './util.js';
 
 const SECONDS = 30;
 const PEEK_MS = 1000;
@@ -169,10 +169,8 @@ function makeSpawner(spots, peekMs) {
   };
 }
 
-const mobile = matchMedia('(max-width: 799px), (hover: none) and (pointer: coarse)');
-
 export function openGame() {
-  const dialog = $(mobile.matches ? '[data-game-mobile]' : '[data-game]');
+  const dialog = $(narrowOrTouch.matches ? '[data-game-mobile]' : '[data-game]');
   if (dialog && !dialog.open) dialog.showModal();
 }
 

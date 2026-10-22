@@ -5,6 +5,7 @@ export function createMusic(cfg, { isUnlocked }) {
   let token = 0;               // cancels stale switches
   let ctx = null;
   const listeners = new Set();
+  let charsReached = false;    // set by the observer at the bottom
 
   const ext = (() => {
     try { return document.createElement('audio').canPlayType('audio/webm; codecs="opus"') ? 'webm' : 'mp4'; }
@@ -36,9 +37,7 @@ export function createMusic(cfg, { isUnlocked }) {
   const zoneNow = () => {
     if (document.querySelector('[data-game][open]')) return 'game';
     if (!isUnlocked()) return 'hero';
-    const chars = document.getElementById('characters');
-    if (chars && chars.getBoundingClientRect().top < window.innerHeight * cfg.charsZoneAt) return 'chars';
-    return 'setting';
+    return charsReached ? 'chars' : 'setting';
   };
 
   const play = (zone) => {
@@ -74,7 +73,6 @@ export function createMusic(cfg, { isUnlocked }) {
         if (!ctx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) ctx = new AC(); }
         ctx && ctx.resume();
       } catch { /* no ping then */ }
-      Object.keys(cfg.tracks).forEach((z) => { try { get(z).load(); } catch { /* ignore */ } });
       play(zoneNow());
       emit();
     },
@@ -105,11 +103,12 @@ export function createMusic(cfg, { isUnlocked }) {
     }
   };
 
-  let raf = 0;
-  window.addEventListener('scroll', () => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => { raf = 0; api.checkZone(); });
-  }, { passive: true });
+  // «Персонажи» is reached when its top passes charsZoneAt of the viewport, and stays reached everywhere below
+  const chars = document.getElementById('characters');
+  if (chars) new IntersectionObserver(([e]) => {
+    charsReached = e.isIntersecting || e.boundingClientRect.top < 0;
+    api.checkZone();
+  }, { rootMargin: `0px 0px -${Math.round((1 - cfg.charsZoneAt) * 100)}% 0px` }).observe(chars);
 
   return api;
 }

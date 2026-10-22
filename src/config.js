@@ -25,7 +25,7 @@ export const CONFIG = {
     scrollToAfterYesMs: 4700
   },
   reveal: {
-    start: 'top 50%',                 // prologue words start when the text reaches the middle of the screen
+    start: 0.85,                      // prologue words start when the top of the text passes this share of the screen (0.5 = middle)
     duration: 6,                      // per-word settle time, s
     stagger: 0.14                     // delay between words (random order), s
   },

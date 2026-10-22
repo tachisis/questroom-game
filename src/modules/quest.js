@@ -1,4 +1,4 @@
-import { $, $$, el, createTimers, shuffle } from './util.js';
+import { $, $$, el, createTimers, shuffle, prefersReducedMotion } from './util.js';
 
 export function initQuest(cfg, msg, { music, lock, onUnlock }) {
   const cta = $('[data-quest-start]');
@@ -50,7 +50,8 @@ export function initQuest(cfg, msg, { music, lock, onUnlock }) {
   function openPhone() {
     toast.hidden = true;
     layer.classList.remove('closing');
-    layer.hidden = false;
+    if (!layer.open) layer.showModal();
+    (s.ready ? input : feed).focus({ preventScroll: true });
     if (s.intro) return;
     s.intro = true;
     let typing;
@@ -63,35 +64,41 @@ export function initQuest(cfg, msg, { music, lock, onUnlock }) {
     timers.later(() => { try { input.focus({ preventScroll: true }); } catch { /* ignore */ } }, 4800);
   }
 
-  function minimize() {
-    if (layer.hidden || s.closing) return;
+  // plays the closing animation, then closes the dialog
+  function hideLayer(after) {
     s.closing = true;
     layer.classList.add('closing');
     setTimeout(() => {
-      layer.hidden = true;
+      layer.close();
       layer.classList.remove('closing');
       s.closing = false;
-      if (!s.done) toast.hidden = false;
+      after();
     }, 500);
   }
 
+  function minimize() {
+    if (!layer.open || s.closing) return;
+    hideLayer(() => {
+      if (s.done) return;
+      toast.hidden = false;
+      toast.focus({ preventScroll: true }); // the dialog would return focus to the toast, but it was hidden then
+    });
+  }
+
   function reset() {
-    if (layer.hidden || s.closing || s.done) return;
+    if (!layer.open || s.closing || s.done) return;
     timers.clear();
-    s.closing = true;
-    layer.classList.add('closing');
     music.stop();
-    setTimeout(() => {
-      layer.hidden = true;
-      layer.classList.remove('closing');
+    hideLayer(() => {
       clearFeed();
       input.value = '';
       input.placeholder = 'Сообщение';
       setInput(false);
-      Object.assign(s, { started: false, intro: false, closing: false, retryIdx: 0 });
+      Object.assign(s, { started: false, intro: false, retryIdx: 0 });
       toast.hidden = true;
       cta.classList.remove('gone');
-    }, 500);
+      cta.focus({ preventScroll: true });
+    });
   }
 
   const normalize = (v) => String(v || '').trim().toLowerCase().replace(/ё/g, 'е').replace(/[.!\s]+$/, '');
@@ -125,12 +132,16 @@ export function initQuest(cfg, msg, { music, lock, onUnlock }) {
     timers.later(() => { dropTyping(typing); bubble('in', [p(msg.accepted)], msg.timeOut); music.ping(); }, 2200);
     timers.later(minimize, 4200);
     timers.later(() => { lock.unlock(); onUnlock(); }, 4600);
-    timers.later(() => { document.getElementById('world').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, cfg.scrollToAfterYesMs);
+    timers.later(() => { document.getElementById('world').scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' }); }, cfg.scrollToAfterYesMs);
   }
 
   cta.addEventListener('click', start);
   toast.addEventListener('click', openPhone);
   $$('[data-phone-minimize]').forEach((b) => b.addEventListener('click', minimize));
+  layer.addEventListener('click', (e) => { if (e.target === layer) minimize(); }); // the dimmed area around the phone
+  layer.addEventListener('cancel', (e) => { e.preventDefault(); minimize(); });   // Esc: same animation as the button
+  // a second quick Esc may close the dialog without «cancel»: bring the toast back so the phone can be reopened
+  layer.addEventListener('close', () => { if (!s.closing && !s.done) toast.hidden = false; });
   $$('[data-phone-reset]').forEach((b) => b.addEventListener('click', reset));
   sendBtn.addEventListener('click', send);
   input.addEventListener('keydown', (e) => {

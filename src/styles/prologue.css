@@ -1,9 +1,16 @@
-.blood-sec { position: relative; overflow: hidden; padding: calc(21vw + 24px) 0 clamp(80px, 10vw, 160px); background: var(--blood) url('/img/fx/trees.webp') center top / 100% auto no-repeat; }
+.blood-sec { position: relative; overflow: hidden; padding: calc(21vw + 24px) 0 clamp(80px, 10vw, 160px); background: var(--blood) center top / 100% auto no-repeat; }
+/* trees load only after «Да»: until then the block is out of reach anyway */
+.is-unlocked .blood-sec { background-image: url('/img/fx/trees.webp'); }
 .rv-wrap { position: relative; overflow: hidden; padding: .1em 0 .25em; }
 .rv { width: 90%; margin: 0 auto; font: 600 4.2vw/1.08 var(--f-display); text-transform: uppercase; letter-spacing: .01em; color: var(--ink); }
 .rv .space { display: inline-block; width: 25vw; }
-/* SplitType wraps every word in .word; GSAP animates them (src/modules/reveal.js) */
-.rv .word { display: inline-block; backface-visibility: hidden; transform: translateZ(0); }
+/* reveal.js wraps every word in .word with its own --in / --out delay; .on on the text brings the words in.
+   Easing: GSAP's power4.out (easeOutQuint) on the way in; the way back is short easeOutCubic,
+   an ease-in there would sit still for seconds and the block scrolls away before it moves. */
+.rv .word { display: inline-block; opacity: 0; transform: translateY(50px); filter: blur(2px); transform-origin: 50% 100%; backface-visibility: hidden; will-change: transform, opacity, filter;
+  transition-property: opacity, transform, filter; transition-duration: calc(var(--dur) / 5); transition-delay: var(--out); transition-timing-function: cubic-bezier(.33, 1, .68, 1); }
+.rv-text.on .word { opacity: 1; transform: none; filter: none; transition-duration: var(--dur); transition-delay: var(--in); transition-timing-function: cubic-bezier(.22, 1, .36, 1); }
+@media (prefers-reduced-motion: reduce) { .rv .word { transition: none; } }
 /* until JS has split the text, keep it hidden (no flash of the final state) */
 .js .rv-text:not(.is-split) { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) { .js .rv-text:not(.is-split) { visibility: visible; } }

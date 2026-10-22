@@ -9,10 +9,6 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "gsap": "^3.12.5",
-    "split-type": "^0.3.4"
-  },
   "devDependencies": {
     "vite": "^5.4.0"
   }

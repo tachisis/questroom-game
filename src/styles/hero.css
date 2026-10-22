@@ -2,29 +2,33 @@
 .tv { position: absolute; inset: -6%; will-change: transform; }
 .layer { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity .35s ease .08s; }
 .layer.on { opacity: 1; }
-.bg-city { background-image: url('/img/hero/city.jpg'); }
-.bg-park { background-image: url('/img/hero/park.jpg'); }
-.bg-forest { background-image: url('/img/hero/forest.jpg'); }
+/* only the visible background loads at first; the rest wait for window load (hero.js adds .all-bgs) */
+.bg-city.on, .hero.all-bgs .bg-city { background-image: url('/img/hero/city.webp'); }
+.bg-park.on, .hero.all-bgs .bg-park { background-image: url('/img/hero/park.webp'); }
+.bg-forest.on, .hero.all-bgs .bg-forest { background-image: url('/img/hero/forest.webp'); }
 
 .hero .jitter { position: absolute; inset: 0; animation: jitter 7s steps(1) infinite; }
 @keyframes jitter { 0%, 100% { transform: none; } 31% { transform: translate(-3px, 1px); } 31.6% { transform: none; } 58% { transform: translate(2px, -2px) skewX(.6deg); } 58.4% { transform: none; } 86% { transform: translate(-1px, 3px); } 86.3% { transform: none; } }
 
 .slice { position: absolute; inset: 0; background-size: cover; background-position: center; mix-blend-mode: screen; opacity: 0; }
-.hero.city .slice { background-image: url('/img/hero/city.jpg'); }
-.hero.park .slice { background-image: url('/img/hero/park.jpg'); }
-.hero.forest .slice { background-image: url('/img/hero/forest.jpg'); }
+.hero.city .slice { background-image: url('/img/hero/city.webp'); }
+.hero.park .slice { background-image: url('/img/hero/park.webp'); }
+.hero.forest .slice { background-image: url('/img/hero/forest.webp'); }
 .slice.r { filter: sepia(1) saturate(6) hue-rotate(-50deg) brightness(.8); animation: sliceR 5.3s steps(1) infinite; }
 .slice.b { filter: sepia(1) saturate(5) hue-rotate(170deg) brightness(.7); animation: sliceB 6.7s steps(1) infinite; }
 @keyframes sliceR { 0%, 100% { opacity: 0; } 40% { opacity: .55; clip-path: inset(22% 0 66% 0); transform: translateX(-14px); } 41% { clip-path: inset(61% 0 30% 0); transform: translateX(10px); } 42% { opacity: 0; } 77% { opacity: .5; clip-path: inset(8% 0 86% 0); transform: translateX(18px); } 77.8% { opacity: 0; } }
 @keyframes sliceB { 0%, 100% { opacity: 0; } 18% { opacity: .5; clip-path: inset(48% 0 40% 0); transform: translateX(12px); } 19% { clip-path: inset(80% 0 12% 0); transform: translateX(-8px); } 20% { opacity: 0; } 66% { opacity: .45; clip-path: inset(33% 0 58% 0); transform: translateX(-16px); } 66.6% { opacity: 0; } }
+/* hero scrolled out of view: freeze its endless animations (hero.js toggles .is-off) */
+.hero.is-off *, .hero.is-off *::before, .hero.is-off *::after { animation-play-state: paused; }
 .hero.noglitch .slice, .hero.noglitch .jitter, .hero.noglitch .title::before, .hero.noglitch .title::after { animation: none; }
 
 .shade { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, #06070a00 30%, #06070acc 100%), linear-gradient(#06070a66, #06070a00 30%, #06070a00 60%, #06070af2); }
 .scan { position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(#00000000 0 2px, #0000004d 2px 3px); }
 .grain { position: absolute; inset: -50%; pointer-events: none; opacity: .6; mix-blend-mode: overlay; background-image: radial-gradient(#ffffff26 1px, #0000 1.2px), radial-gradient(#00000059 1px, #0000 1.3px), radial-gradient(#ffffff1a 1px, #0000 1.4px); background-size: 3px 3px, 5px 4px, 7px 6px; animation: grain .45s steps(4) infinite; }
 @keyframes grain { 0% { transform: translate(0, 0); } 25% { transform: translate(-2%, 1%); } 50% { transform: translate(1%, -2%); } 75% { transform: translate(2%, 2%); } 100% { transform: translate(-1%, -1%); } }
-.roll { position: absolute; left: 0; right: 0; top: -20%; height: 18%; pointer-events: none; background: linear-gradient(#ffffff00, #ffffff0d 50%, #ffffff00); animation: roll 8s linear infinite; }
-@keyframes roll { to { top: 110%; } }
+.roll { position: absolute; left: 0; right: 0; top: 0; height: 18%; pointer-events: none; background: linear-gradient(#ffffff00, #ffffff0d 50%, #ffffff00); animation: roll 8s linear infinite; }
+/* transform instead of top: no layout every frame. -112% / 612% of its own 18% height = -20% / 110% of the hero */
+@keyframes roll { from { transform: translateY(-112%); } to { transform: translateY(612%); } }
 
 .burst { position: absolute; inset: 0; background: var(--text-2); opacity: 0; pointer-events: none; mix-blend-mode: overlay; }
 .hero.flip-a .burst { animation: burstA .5s steps(5); }
@@ -39,7 +43,7 @@
 .hero-center { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 16px 80px; will-change: transform; }
 .kicker { margin: 0 0 18px; font: 500 13px/1.4 var(--f-mono); letter-spacing: .32em; text-transform: uppercase; color: var(--text-2); }
 .title { position: relative; margin: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(48px, min(15vw, 24vh), 230px); line-height: .9; letter-spacing: .03em; text-transform: uppercase; color: var(--paper); text-shadow: 3px 0 0 #d9353b99, -3px 0 0 #2a4f9b99, 0 0 40px #000; }
-.title::before, .title::after { content: attr(data-text); position: absolute; inset: 0; pointer-events: none; opacity: 0; mix-blend-mode: screen; }
+.title::before, .title::after { content: attr(data-text); content: attr(data-text) / ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; mix-blend-mode: screen; }
 .title::before { color: #ff3b42; animation: tglitch 4.2s steps(1) infinite; }
 .title::after { color: #5d8bff; animation: tglitch2 5.6s steps(1) infinite; }
 .sub { margin: 22px 0 0; font: italic 500 clamp(18px, 2vw, 24px)/1.4 var(--f-serif); color: var(--text-2); }
@@ -51,7 +55,8 @@
 .tk-label b { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: blink 1s steps(1) infinite; }
 .tk-view { position: relative; flex: 1; display: flex; align-items: center; overflow: hidden; }
 .tk-track { display: flex; width: max-content; animation: marquee 90s linear infinite; }
-.ticker:hover .tk-track { animation-play-state: paused; }
+.ticker:hover .tk-track, .ticker:focus .tk-track { animation-play-state: paused; }  /* focus = keyboard way to stop it (WCAG 2.2.2) */
+.ticker:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 .tk-item { display: flex; align-items: center; gap: 28px; padding: 0 28px; white-space: nowrap; font: 400 15px/1 var(--f-mono); color: var(--text); }
 .tk-item span { color: var(--red); font-weight: 500; }

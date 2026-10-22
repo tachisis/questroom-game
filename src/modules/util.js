@@ -10,6 +10,9 @@ export async function loadJSON(path) {
 export const prefersReducedMotion = () =>
   window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// same query as the CSS that hides the fluid cursor: no game and no cursor on narrow or touch screens
+export const narrowOrTouch = matchMedia('(max-width: 799px), (hover: none) and (pointer: coarse)');
+
 // Small timer bag so a whole flow can be cancelled at once
 export function createTimers() {
   let ids = [];

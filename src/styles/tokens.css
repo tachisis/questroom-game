@@ -11,8 +11,8 @@
   --text: #e7e4dc;
   --text-2: #c9ccd3;
   --muted: #8b93a3;
-  --red: #d9353b;
-  --red-2: #e2363c;
+  --red: #e0434a;        /* ≥ 4.5:1 on --ink and --ink-2 */
+  --red-2: #e24248;
   --red-deep: #a3121a;
   --red-soft: #ff6b6f;
   --blood: #c4161f;        /* prologue block */
