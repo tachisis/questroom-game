@@ -1,4 +1,3 @@
-/* ---------- shared glitch for headings (same as the hero title) ---------- */
 @keyframes tglitch { 0%, 100% { opacity: 0; } 46% { opacity: .8; clip-path: inset(12% 0 60% 0); transform: translate(-8px, 0); } 47% { clip-path: inset(55% 0 20% 0); transform: translate(6px, 0); } 48% { opacity: 0; } }
 @keyframes tglitch2 { 0%, 100% { opacity: 0; } 72% { opacity: .7; clip-path: inset(30% 0 45% 0); transform: translate(9px, 0); } 73.2% { opacity: 0; } }
 .glitch { position: relative; text-shadow: 2px 0 0 #d9353b80, -2px 0 0 #2a4f9b80; }
@@ -8,6 +7,5 @@
 .glitch.g2::before { animation-delay: -1.4s; } .glitch.g2::after { animation-delay: -2.1s; }
 .glitch.g3::before { animation-delay: -2.8s; } .glitch.g3::after { animation-delay: -3.9s; }
 
-/* ---------- WebGL fluid cursor overlay ---------- */
 .fluid { position: fixed; inset: 0; z-index: 400; width: 100vw; height: 100vh; pointer-events: none; opacity: .6; }
 @media (max-width: 799px), (hover: none) and (pointer: coarse) { .fluid { display: none; } }

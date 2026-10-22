@@ -1,11 +1,9 @@
-// Background music by zone. Switching always fades the current track to zero first,
-// then fades the next one in. Also provides the short notification «ping».
 export function createMusic(cfg, { isUnlocked }) {
   const tracks = {};
   let wanted = false;          // user wants music on
-  let current = null;          // zone currently playing
+  let current = null;
   let token = 0;               // cancels stale switches
-  let ctx = null;              // AudioContext for the ping
+  let ctx = null;
   const listeners = new Set();
 
   const ext = (() => {
@@ -36,6 +34,7 @@ export function createMusic(cfg, { isUnlocked }) {
   };
 
   const zoneNow = () => {
+    if (document.querySelector('[data-game][open]')) return 'game';
     if (!isUnlocked()) return 'hero';
     const chars = document.getElementById('characters');
     if (chars && chars.getBoundingClientRect().top < window.innerHeight * cfg.charsZoneAt) return 'chars';

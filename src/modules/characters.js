@@ -1,11 +1,10 @@
 import { $, $$, el } from './util.js';
+import { openGame } from './game.js';
 
-// Renders the «Игроки» and «NPC» cards from public/data/characters.json and drives the dossier panel.
 export function initCharacters(data) {
   const byId = new Map(data.characters.map((c) => [c.id, c]));
   const ordered = [...data.characters.filter((c) => !c.pinLast), ...data.characters.filter((c) => c.pinLast)];
 
-  // ---------- cards ----------
   const playersGrid = $('[data-cast="player"]');
   const npcGrid = $('[data-cast="npc"]');
   let playerNo = 0;
@@ -27,7 +26,6 @@ export function initCharacters(data) {
   }
   $('[data-players-count]').textContent = String(playerNo).padStart(2, '0');
 
-  // ---------- relations ----------
   const types = data.relationTypes;
   const word = (v, gender) => (typeof v === 'string' ? v : v[gender] || v.male);
 
@@ -52,7 +50,6 @@ export function initCharacters(data) {
     return out;
   }
 
-  // ---------- dossier ----------
   const box = $('[data-dossier]');
   const panel = $('.panel', box);
   const f = (k) => $(`[data-d-${k}]`, box);
@@ -62,6 +59,7 @@ export function initCharacters(data) {
   function open(id) {
     const c = byId.get(id);
     if (!c) return;
+    if (c.playGame) return openGame();
     lastFocus = lastFocus || document.activeElement;
     const isPlayer = c.group === 'player';
     const img = f('photo');
@@ -94,5 +92,6 @@ export function initCharacters(data) {
   $$('.card[data-id]').forEach((card) => card.addEventListener('click', () => open(card.dataset.id)));
   f('reveal').addEventListener('click', () => { f('secret').hidden = false; f('reveal').hidden = true; });
   $$('[data-dossier-close]', box).forEach((b) => b.addEventListener('click', close));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden) close(); });
+  // Esc inside the game dialog closes only the game; the dossier underneath stays open
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden && !$('dialog[open]')) close(); });
 }

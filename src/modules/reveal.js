@@ -5,8 +5,6 @@ import { $, prefersReducedMotion } from './util.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Prologue: the paragraph is split into words; when it reaches the middle of the screen,
-// the words settle up from a blur in random order, overlapping in time. Scrolling back up scatters them again.
 export function initReveal(cfg) {
   const text = $('[data-reveal]');
   if (!text) return { arm() {} };

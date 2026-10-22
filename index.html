@@ -13,7 +13,6 @@
 </head>
 <body class="is-locked">
 
-<!-- ================= HEADER ================= -->
 <header class="hdr">
   <div class="rec"><b></b>Rec <span class="tc">· 23.10.2050 · 03:14:<span data-rec-sec>07</span></span></div>
 
@@ -36,7 +35,6 @@
   </nav>
 </header>
 
-<!-- ================= HERO ================= -->
 <section id="top" class="hero city" aria-label="Квеструм">
   <div class="tv" data-parallax-bg>
     <div class="jitter">
@@ -73,7 +71,6 @@
   </button>
 </section>
 
-<!-- ================= PHONE / MESSENGER (overlay) ================= -->
 <div class="phone-layer" data-phone hidden>
   <button class="ph-scrim" type="button" data-phone-minimize aria-label="Свернуть окно сообщения"></button>
   <div class="phone-wrap">
@@ -108,7 +105,6 @@
   </div>
 </div>
 
-<!-- ================= SETTING ================= -->
 <section id="world" class="world-sec">
   <div class="wrap">
     <p class="eyebrow">Россия · 2050</p>
@@ -149,7 +145,7 @@
   </div>
 </section>
 
-<!-- ================= CHARACTERS (cards are rendered from public/data/characters.json) ================= -->
+<!-- cards are rendered from public/data/characters.json -->
 <section id="characters" class="chars-sec">
   <div class="wrap">
     <div class="chars-head">
@@ -174,14 +170,12 @@
   </div>
 </section>
 
-<!-- ================= PROLOGUE (red block, words revealed with GSAP + SplitType) ================= -->
 <section class="blood-sec" aria-label="Пролог" data-reveal-section>
   <div class="rv-wrap">
     <p class="rv"><span class="space" aria-hidden="true"></span><span class="rv-text" data-reveal>Ты так долго ждал приглашения. Уверен, что хотел его получить? Игра началась. Выхода правилами не предусмотрено.</span></p>
   </div>
 </section>
 
-<!-- ================= ABOUT ================= -->
 <section id="about" class="about">
   <div class="wrap">
     <p class="eyebrow">Титры</p>
@@ -189,7 +183,7 @@
     <dl class="credits">
       <div class="cr"><dt>Автор словески</dt><dd>Окс</dd></div>
       <div class="cr"><dt>Игроки</dt><dd><span>Советник</span><span>Леннис</span><span>Ди</span><span>Ева</span></dd></div>
-      <div class="cr"><dt>В эфире</dt><dd><span class="mono">23/10/2025 — …</span></dd></div>
+      <div class="cr"><dt>В эфире</dt><dd><span class="mono">23/10/2025 — сейчас</span></dd></div>
     </dl>
     <div class="foot">
       <span>Квеструм · словесная ролевая игра</span>
@@ -198,7 +192,6 @@
   </div>
 </section>
 
-<!-- ================= DOSSIER (side panel) ================= -->
 <div class="dossier" data-dossier hidden>
   <button class="scrim" type="button" data-dossier-close aria-label="Закрыть досье"></button>
   <aside class="panel" aria-label="Досье персонажа" tabindex="-1">
@@ -208,16 +201,22 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
-    <div class="panel-ph"><span class="sil"></span><img class="panel-img" data-d-photo alt="" hidden></div>
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow" data-d-kind></p>
+        <h3 data-d-name></h3>
+        <dl class="facts">
+          <dt>Возраст</dt><dd data-d-age></dd>
+          <dt>Занятие</dt><dd data-d-occupation></dd>
+          <dt>Игрок</dt><dd data-d-player></dd>
+          <dt>Статус</dt><dd data-d-status></dd>
+        </dl>
+        <h4>Связи</h4>
+        <div class="rels" data-d-rels></div>
+      </div>
+      <div class="panel-ph"><span class="sil"></span><img class="panel-img" data-d-photo alt="" hidden></div>
+    </div>
     <div class="panel-body">
-      <p class="eyebrow" data-d-kind></p>
-      <h3 data-d-name></h3>
-      <dl class="facts">
-        <dt>Возраст</dt><dd data-d-age></dd>
-        <dt>Занятие</dt><dd data-d-occupation></dd>
-        <dt>Игрок</dt><dd data-d-player></dd>
-        <dt>Статус</dt><dd data-d-status></dd>
-      </dl>
       <h4>Биография</h4>
       <div data-d-bio></div>
       <h4>Тайна</h4>
@@ -225,14 +224,370 @@
       <button class="reveal" type="button" data-d-reveal>Раскрыть
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </button>
-      <h4>Связи</h4>
-      <div class="rels" data-d-rels></div>
     </div>
   </aside>
 </div>
 
 <!-- WebGL fluid cursor (on/off: src/config.js → FLUID_CURSOR) -->
 <canvas id="fluid" class="fluid" aria-hidden="true" hidden></canvas>
+
+<!-- Открывается через dialog.showModal(). Состояния переключаются атрибутом hidden и классами,
+     логика — src/modules/game.js. Координаты объектов в % от карты 1200×656. -->
+<dialog class="pg" data-game aria-labelledby="pg-title">
+  <svg class="pg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="pg-dog" viewBox="0 0 120 130">
+      <path d="M30 88 Q22 130 26 130 L94 130 Q98 130 90 88 Z" fill="#9c6331"/>
+      <path d="M44 102 Q60 126 76 102 L80 130 L40 130 Z" fill="#6e4220" opacity=".6"/>
+      <path d="M26 68 L28 6 Q32 1 36 6 L60 44 Z" fill="#2a1a10"/>
+      <path d="M32 58 L32 18 L50 44 Z" fill="#8a5632"/>
+      <path d="M94 68 L92 6 Q88 1 84 6 L60 44 Z" fill="#2a1a10"/>
+      <path d="M88 58 L88 18 L70 44 Z" fill="#8a5632"/>
+      <ellipse cx="60" cy="68" rx="36" ry="32" fill="#b97a40"/>
+      <path d="M47 46 Q60 38 73 46 L86 90 Q60 118 34 90 Z" fill="#1e1510"/>
+      <ellipse cx="42" cy="56" rx="5" ry="3" fill="#c98a4c"/>
+      <ellipse cx="78" cy="56" rx="5" ry="3" fill="#c98a4c"/>
+      <circle cx="47" cy="65" r="4.5" fill="#6a3c18"/>
+      <circle cx="73" cy="65" r="4.5" fill="#6a3c18"/>
+      <circle cx="47" cy="65" r="2.4" fill="#0b0705"/>
+      <circle cx="73" cy="65" r="2.4" fill="#0b0705"/>
+      <circle cx="48.3" cy="63.6" r="1.2" fill="#fff"/>
+      <circle cx="74.3" cy="63.6" r="1.2" fill="#fff"/>
+      <path d="M50 82 Q60 78 70 82 Q66 100 60 101 Q54 100 50 82 Z" fill="#2b1f18"/>
+      <path d="M52 90 Q60 85 68 90 Q66 97 60 98 Q54 97 52 90 Z" fill="#0a0706"/>
+      <ellipse cx="57" cy="89" rx="3" ry="1.5" fill="#4a3a32"/>
+      <ellipse cx="60" cy="108" rx="4.5" ry="3.5" fill="#c4656b"/>
+      <path d="M52 103 Q60 108 68 103" fill="none" stroke="#0a0706" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="pg-evil-dog" viewBox="0 0 120 130">
+      <path d="M30 88 Q22 130 26 130 L94 130 Q98 130 90 88 Z" fill="#0a0b0c"/>
+      <g fill="none" stroke="#1d2126" stroke-width="1.2" stroke-linecap="round"><path d="M36 112 Q40 120 38 130"/><path d="M84 112 Q80 120 82 130"/><path d="M60 118 V130"/></g>
+      <path d="M26 68 L28 6 Q32 1 36 6 L60 44 Z" fill="#050606"/>
+      <path d="M32 58 L32 18 L50 44 Z" fill="#1a1d20"/>
+      <path d="M94 68 L92 6 Q88 1 84 6 L60 44 Z" fill="#050606"/>
+      <path d="M88 58 L88 18 L70 44 Z" fill="#1a1d20"/>
+      <ellipse cx="60" cy="68" rx="36" ry="32" fill="#0c0d0e"/>
+      <ellipse cx="60" cy="48" rx="20" ry="7" fill="#3a4048" opacity=".3"/>
+      <path d="M47 46 Q60 38 73 46 L86 90 Q60 118 34 90 Z" fill="#070708"/>
+      <g fill="none" stroke="#2b3036" stroke-width="1" stroke-linecap="round" opacity=".9"><path d="M60 40 V52"/><path d="M30 64 Q34 74 32 84"/><path d="M90 64 Q86 74 88 84"/></g>
+      <path d="M36 58 L54 63" stroke="#2b3036" stroke-width="2" stroke-linecap="round"/>
+      <path d="M84 58 L66 63" stroke="#2b3036" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="47" cy="66" r="9" fill="#ffffff" opacity=".22"/>
+      <circle cx="73" cy="66" r="9" fill="#ffffff" opacity=".22"/>
+      <path d="M40 63 L54 66 L43 69 Z" fill="#f6f3ea"/>
+      <path d="M80 63 L66 66 L77 69 Z" fill="#f6f3ea"/>
+      <path d="M44 92 L76 92 Q71 114 60 117 Q49 114 44 92 Z" fill="#2a0607"/>
+      <ellipse cx="60" cy="104" rx="7" ry="6" fill="#120203"/>
+      <g fill="#e8e4da"><path d="M45 92 l2.5 10 l2.5 -10 Z"/><path d="M50 92 l1.8 5 l1.8 -5 Z"/><path d="M54 92 l2 7 l2 -7 Z"/><path d="M58 92 l2 5 l2 -5 Z"/><path d="M62 92 l2 7 l2 -7 Z"/><path d="M66.4 92 l1.8 5 l1.8 -5 Z"/><path d="M70 92 l2.5 10 l2.5 -10 Z"/></g>
+      <g fill="#e8e4da"><path d="M49 110 l2 -8 l2 8 Z"/><path d="M53.5 113 l1.8 -5 l1.8 5 Z"/><path d="M58 115 l2 -6 l2 6 Z"/><path d="M62.9 113 l1.8 -5 l1.8 5 Z"/><path d="M67 110 l2 -8 l2 8 Z"/></g>
+      <path d="M50 80 Q60 76 70 80 L68 90 L52 90 Z" fill="#050505"/>
+      <path d="M52 84 Q60 80 68 84 Q66 90 60 91 Q54 90 52 84 Z" fill="#000000"/>
+      <ellipse cx="57" cy="83" rx="3" ry="1.3" fill="#3a4048"/>
+      <path d="M65 104 q1.5 8 0 14 q-2 -6 0 -14 Z" fill="#9aa3a8" opacity=".55"/>
+    </symbol>
+    <symbol id="pg-pelmen" viewBox="9 11 52 52">
+      <path fill="#ece8df" d="m57.09 18.09a6.431 6.431 0 0 0-2.467-1.533 4.371 4.371 0 0 0-3.793-0.2243 4.477 4.477 0 0 0-6.104-2.962 4.46 4.46 0 0 0-6.223-0.2 4.445 4.445 0 0 0-6.532 0.5746 4.472 4.472 0 0 0-6.716 2.333 4.434 4.434 0 0 0-5.252 4.424 4.432 4.432 0 0 0 0.0549 0.5449 4.405 4.405 0 0 0-3.979 5.207 4.472 4.472 0 0 0-2.333 6.716 4.445 4.445 0 0 0-0.5746 6.532 4.445 4.445 0 0 0 0.5746 6.532 4.487 4.487 0 0 0 1.955 6.586 6.486 6.486 0 0 0 11.07 4.98l30.32-30.32a6.519 6.519 0 0 0-2e-4 -9.192z"/>
+      <g fill="none" stroke="#bfb49e" stroke-linecap="round" stroke-width="2"><path d="m14.25 33.21 3.393 0.6134"/><path d="m20.56 21.28 2.823 2.014"/><path d="m32.48 13.98 0.5928 3.396"/></g>
+      <path transform="matrix(.6322 .7748 -.7436 .6686 0 0)" fill="none" stroke="#bfb49e" stroke-linecap="round" stroke-width="2" d="m50.4 8.855a12.77 14.13 0 0 1-11.4-12.97 12.77 14.13 0 0 1 9.473-14.75"/>
+      <path fill="none" stroke="#3a3326" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m57.59 18.33a6.431 6.431 0 0 0-2.467-1.533 4.371 4.371 0 0 0-3.793-0.2243 4.477 4.477 0 0 0-6.104-2.962 4.46 4.46 0 0 0-6.223-0.2 4.445 4.445 0 0 0-6.532 0.5746 4.472 4.472 0 0 0-6.716 2.333 4.434 4.434 0 0 0-5.252 4.424 4.432 4.432 0 0 0 0.0549 0.5449 4.405 4.405 0 0 0-3.979 5.207 4.472 4.472 0 0 0-2.333 6.716 4.445 4.445 0 0 0-0.5746 6.532 4.445 4.445 0 0 0 0.5746 6.532 4.487 4.487 0 0 0 1.955 6.586 6.486 6.486 0 0 0 11.07 4.98l30.32-30.32a6.519 6.519 0 0 0-2e-4 -9.192z"/>
+    </symbol>
+  </svg>
+
+  <div class="pg-frame">
+    <button class="icon-btn pg-close" type="button" data-game-close aria-label="Закрыть игру">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <section class="pg-play" data-game-screen="play">
+      <header class="pg-hud">
+        <div class="pg-hud-title">
+          <p class="pg-rec"><b></b>Rec · 03:14</p>
+          <h2 class="pg-title glitch" id="pg-title" data-text="Поймай Пельменя">Поймай Пельменя</h2>
+        </div>
+        <div class="pg-timer">
+          <span class="pg-label">Осталось</span>
+          <span class="pg-time" data-game-time>00:30</span>
+        </div>
+        <div class="pg-score-wrap">
+          <div class="pg-score">
+            <svg class="pg-pelmen" width="44" height="34" aria-hidden="true"><use href="#pg-pelmen"/></svg>
+            <div class="pg-score-text">
+              <span class="pg-label">Пельмени</span>
+              <span class="pg-score-num" data-game-score aria-live="polite">0</span>
+            </div>
+          </div>
+          <span class="pg-pop" data-game-pop hidden>+1 пельмень</span>
+        </div>
+      </header>
+
+      <div class="pg-map">
+        <svg class="pg-map-bg" viewBox="0 0 1200 656" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M-20 600 C 260 540 420 620 640 540 S 1000 400 1220 440" fill="none" stroke="#161d2c" stroke-width="54" stroke-linecap="round" opacity=".8"/>
+        <path d="M640 540 C 610 450 630 360 610 280" fill="none" stroke="#161d2c" stroke-width="40" stroke-linecap="round" opacity=".8"/>
+        <path d="M610 280 C 520 260 380 280 200 270" fill="none" stroke="#161d2c" stroke-width="30" stroke-linecap="round" opacity=".6"/>
+        <g fill="#2b3754" opacity=".7"><circle cx="90" cy="330" r="2"/><circle cx="260" cy="560" r="2"/><circle cx="470" cy="400" r="2"/><circle cx="760" cy="300" r="2"/><circle cx="1040" cy="330" r="2"/><circle cx="1110" cy="600" r="2"/><circle cx="820" cy="610" r="2"/><circle cx="380" cy="630" r="2"/></g>
+        <path d="M0 22 Q300 74 600 30 T1200 34" fill="none" stroke="#3a3a35" stroke-width="2"/>
+        <g fill="#7a2420"><path d="M60 34 L84 38 L70 66 Z"/><path d="M240 54 L264 56 L250 84 Z"/><path d="M420 54 L444 50 L434 80 Z"/><path d="M780 50 L804 54 L790 82 Z"/><path d="M960 58 L984 56 L974 86 Z"/></g>
+        <g fill="#b9a57f"><path d="M150 46 L174 50 L160 78 Z"/><path d="M330 58 L354 56 L342 86 Z"/><path d="M690 38 L714 42 L700 70 Z"/><path d="M870 58 L894 58 L882 88 Z"/><path d="M1050 50 L1074 46 L1064 76 Z"/></g>
+        <g fill="#f0dcb4"><circle cx="110" cy="40" r="4"/><circle cx="200" cy="52" r="4"/><circle cx="290" cy="58" r="4"/><circle cx="380" cy="58" r="4"/><circle cx="470" cy="50" r="4"/><circle cx="560" cy="36" r="4"/><circle cx="650" cy="30" r="4"/><circle cx="740" cy="42" r="4"/><circle cx="830" cy="54" r="4"/><circle cx="920" cy="58" r="4"/><circle cx="1010" cy="54" r="4"/><circle cx="1100" cy="42" r="4"/></g>
+        <g fill="#f0dcb4" opacity=".18"><circle cx="110" cy="40" r="12"/><circle cx="200" cy="52" r="12"/><circle cx="290" cy="58" r="12"/><circle cx="380" cy="58" r="12"/><circle cx="470" cy="50" r="12"/><circle cx="560" cy="36" r="12"/><circle cx="650" cy="30" r="12"/><circle cx="740" cy="42" r="12"/><circle cx="830" cy="54" r="12"/><circle cx="920" cy="58" r="12"/><circle cx="1010" cy="54" r="12"/><circle cx="1100" cy="42" r="12"/></g>
+        </svg>
+
+        <!-- Особняк -->
+        <div class="pg-spot" data-spot="mansion" style="left: 3.333%; top: 10.671%; width: 25%; height: 36.585%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у особняка" hidden style="left: 81.667%; top: 43.75%; width: 40%; height: 54.167%; --tilt: 12deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 300 240" aria-hidden="true">
+            <ellipse cx="150" cy="238" rx="140" ry="6" fill="#000" opacity=".4"/>
+            <path d="M30 96 L150 22 L270 96 Z" fill="#14191a" stroke="#2f3739" stroke-width="2"/>
+            <rect x="44" y="94" width="212" height="146" fill="#1f2628" stroke="#2f3739" stroke-width="2"/>
+            <rect x="196" y="44" width="52" height="60" fill="#1b2123" stroke="#2f3739" stroke-width="2"/>
+            <path d="M190 48 L222 4 L254 48 Z" fill="#111516" stroke="#2f3739" stroke-width="2"/>
+            <circle cx="222" cy="72" r="9" fill="#0a0e0f"/>
+            <rect x="64" y="118" width="28" height="40" fill="#0a0e0f"/>
+            <rect x="112" y="118" width="28" height="40" fill="#0a0e0f"/>
+            <rect x="180" y="110" width="44" height="56" fill="#f0dcb4" opacity=".12"/>
+            <rect class="flicker" x="188" y="118" width="28" height="40" fill="#f0dcb4" opacity=".55"/>
+            <rect x="64" y="176" width="28" height="40" fill="#0a0e0f"/>
+            <rect x="210" y="176" width="28" height="40" fill="#0a0e0f"/>
+            <path d="M206 180 L242 212 M206 210 L242 182" stroke="#5a4a38" stroke-width="4"/>
+            <path d="M136 240 V192 Q150 176 164 192 V240 Z" fill="#0a0e0f"/>
+            <polyline points="60,100 70,112 64,124 74,136" fill="none" stroke="#0e1213" stroke-width="2"/>
+            <polyline points="150,30 140,52 152,64" fill="none" stroke="#0e1213" stroke-width="2"/>
+          </svg>
+        </div>
+
+        <!-- Цирковой шатёр -->
+        <div class="pg-spot" data-spot="tent" style="left: 39.167%; top: 12.195%; width: 23.333%; height: 36.585%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у циркового шатра" hidden style="left: 79.286%; top: 49.167%; width: 42.857%; height: 54.167%; --tilt: 14deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 280 240" aria-hidden="true">
+            <ellipse cx="140" cy="236" rx="132" ry="6" fill="#000" opacity=".4"/>
+            <path d="M36 112 L244 112 L262 236 L18 236 Z" fill="#cdbb98"/>
+            <g fill="#8f2b25"><path d="M58 112 H84 L78 236 H44 Z"/><path d="M110 112 H136 L134 236 H102 Z"/><path d="M162 112 H188 L194 236 H162 Z"/><path d="M214 112 H240 L256 236 H222 Z"/></g>
+            <g fill="#000" opacity=".18"><rect x="40" y="160" width="40" height="30"/><rect x="190" y="190" width="50" height="34"/></g>
+            <path d="M24 118 L140 22 L256 118 Z" fill="#8f2b25"/>
+            <g fill="#cdbb98"><path d="M140 22 L56 118 H88 Z"/><path d="M140 22 L124 118 H156 Z"/><path d="M140 22 L192 118 H224 Z"/></g>
+            <g fill="#6e1f1b"><circle cx="34" cy="118" r="11"/><circle cx="58" cy="118" r="11"/><circle cx="82" cy="118" r="11"/><circle cx="106" cy="118" r="11"/><circle cx="130" cy="118" r="11"/><circle cx="154" cy="118" r="11"/><circle cx="178" cy="118" r="11"/><circle cx="202" cy="118" r="11"/><circle cx="226" cy="118" r="11"/><circle cx="246" cy="118" r="11"/></g>
+            <path d="M118 236 L140 150 L162 236 Z" fill="#0a0e0f"/>
+            <path d="M140 150 L114 236 M140 150 L166 236" stroke="#cdbb98" stroke-width="3"/>
+            <line x1="140" y1="24" x2="140" y2="0" stroke="#6a5a40" stroke-width="3"/>
+            <path d="M140 2 L164 8 L140 14 Z" fill="#d9353b"/>
+          </svg>
+        </div>
+
+        <!-- Карусель -->
+        <div class="pg-spot" data-spot="carousel" style="left: 71.667%; top: 16.768%; width: 23.333%; height: 33.537%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у карусели" hidden style="left: 52.143%; top: 33.636%; width: 42.857%; height: 59.091%; --tilt: -6deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 280 220" aria-hidden="true">
+            <ellipse cx="140" cy="194" rx="130" ry="22" fill="#1f2c2e" stroke="#3b4f50" stroke-width="2"/>
+            <ellipse cx="140" cy="188" rx="110" ry="14" fill="#172123"/>
+            <rect x="130" y="60" width="20" height="130" fill="#3a2a22"/>
+            <g stroke="#9a8458" stroke-width="3"><line x1="44" y1="88" x2="44" y2="190"/><line x1="84" y1="88" x2="84" y2="190"/><line x1="196" y1="88" x2="196" y2="190"/><line x1="236" y1="88" x2="236" y2="190"/></g>
+            <path d="M66 146 H96 L102 134 L110 138 L106 150 V162 H101 V154 H75 V162 H70 V154 Z" fill="#c9b48a"/>
+            <path d="M254 146 H224 L218 134 L210 138 L214 150 V162 H219 V154 H245 V162 H250 V154 Z" fill="#a89470"/>
+            <path d="M14 84 L140 18 L266 84 Z" fill="#6b2a24" stroke="#3a1612" stroke-width="2"/>
+            <g fill="#c9a46a"><path d="M140 18 L56 84 H88 Z"/><path d="M140 18 L124 84 H156 Z"/><path d="M140 18 L192 84 H224 Z"/></g>
+            <rect x="14" y="82" width="252" height="16" fill="#3a1714"/>
+            <g fill="#f0dcb4" opacity=".2"><circle cx="24" cy="90" r="9"/><circle cx="44" cy="90" r="9"/><circle cx="64" cy="90" r="9"/><circle cx="84" cy="90" r="9"/><circle cx="104" cy="90" r="9"/><circle cx="124" cy="90" r="9"/><circle cx="144" cy="90" r="9"/><circle cx="164" cy="90" r="9"/><circle cx="184" cy="90" r="9"/><circle cx="204" cy="90" r="9"/><circle cx="224" cy="90" r="9"/><circle cx="244" cy="90" r="9"/></g>
+            <g fill="#f0dcb4"><circle cx="24" cy="90" r="3.5"/><circle cx="44" cy="90" r="3.5"/><circle cx="64" cy="90" r="3.5"/><circle cx="84" cy="90" r="3.5"/><circle cx="104" cy="90" r="3.5"/><circle cx="124" cy="90" r="3.5"/><circle cx="144" cy="90" r="3.5"/><circle cx="164" cy="90" r="3.5"/><circle cx="184" cy="90" r="3.5"/><circle cx="204" cy="90" r="3.5"/><circle cx="224" cy="90" r="3.5"/><circle cx="244" cy="90" r="3.5"/><circle cx="140" cy="16" r="5"/></g>
+          </svg>
+        </div>
+
+        <!-- Дерево -->
+        <div class="pg-spot" data-spot="tree" style="left: 27.5%; top: 41.159%; width: 13.333%; height: 35.061%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у дерева" hidden style="left: 51.25%; top: 41.739%; width: 75%; height: 56.522%; --tilt: 14deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 160 230" aria-hidden="true">
+            <ellipse cx="80" cy="226" rx="62" ry="6" fill="#000" opacity=".4"/>
+            <g fill="none" stroke="#1d1a16" stroke-width="6" stroke-linecap="round"><path d="M58 62 C40 42 30 32 14 26"/><path d="M110 56 C122 40 132 32 150 26"/><path d="M84 40 C86 26 90 14 96 4"/><path d="M98 74 C118 70 136 76 152 68"/></g>
+            <g fill="#1c2620"><circle cx="38" cy="40" r="22"/><circle cx="86" cy="22" r="24"/><circle cx="126" cy="38" r="22"/><circle cx="68" cy="58" r="18"/><circle cx="112" cy="70" r="16"/></g>
+            <path d="M62 228 C66 180 70 150 66 110 C64 90 58 72 52 54 L62 50 C70 70 76 90 80 104 C86 80 98 64 112 50 L118 56 C102 76 92 96 90 120 C88 160 94 196 106 228 Z" fill="#1d1a16" stroke="#2c2721" stroke-width="2"/>
+            <ellipse cx="80" cy="152" rx="7" ry="11" fill="#0a0807"/>
+          </svg>
+        </div>
+
+        <!-- Могила -->
+        <div class="pg-spot" data-spot="grave" style="left: 6.667%; top: 65.549%; width: 10%; height: 18.293%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у могилы" hidden style="left: 0%; top: -51.667%; width: 100%; height: 108.333%; --tilt: -10deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 120 120" aria-hidden="true">
+            <ellipse cx="60" cy="112" rx="56" ry="10" fill="#2b251d"/>
+            <path d="M26 112 V46 A34 34 0 0 1 94 46 V112 Z" fill="#535b5c" stroke="#2c3233" stroke-width="2"/>
+            <path d="M26 102 Q40 92 52 104 Q66 96 94 104 V112 H26 Z" fill="#2f3d2c"/>
+            <rect x="56" y="26" width="8" height="30" fill="#3a4142"/>
+            <rect x="48" y="34" width="24" height="8" fill="#3a4142"/>
+            <text x="60" y="82" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="700" letter-spacing="2" fill="#2e3536">R.I.P.</text>
+            <polyline points="82,50 76,62 84,70 78,84" fill="none" stroke="#2e3536" stroke-width="1.5"/>
+            <path d="M14 112 l3 -10 l3 10 M100 112 l3 -12 l3 12" stroke="#2f3d2c" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- Клоун -->
+        <div class="pg-spot" data-spot="clown" style="left: 40%; top: 59.451%; width: 11.667%; height: 33.537%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у клоуна" hidden style="left: 65.714%; top: 13.636%; width: 85.714%; height: 59.091%; --tilt: 16deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 140 220" aria-hidden="true">
+            <ellipse cx="70" cy="218" rx="54" ry="4" fill="#000" opacity=".4"/>
+            <rect x="34" y="150" width="8" height="70" fill="#4a3a2a"/>
+            <rect x="98" y="150" width="8" height="70" fill="#4a3a2a"/>
+            <rect x="10" y="20" width="120" height="140" rx="10" fill="#cbbd9f" stroke="#6a5a40" stroke-width="3"/>
+            <g fill="#5a4a30" opacity=".18"><circle cx="30" cy="140" r="12"/><circle cx="114" cy="36" r="9"/></g>
+            <g fill="#a8432a"><circle cx="26" cy="68" r="15"/><circle cx="22" cy="90" r="13"/><circle cx="114" cy="68" r="15"/><circle cx="118" cy="90" r="13"/></g>
+            <ellipse cx="70" cy="84" rx="42" ry="48" fill="#ece2cf"/>
+            <path d="M54 40 L70 6 L86 40 Z" fill="#3d5c5e"/>
+            <circle cx="70" cy="6" r="5" fill="#f0dcb4"/>
+            <path d="M44 68 L52 58 L60 68 L52 78 Z M80 68 L88 58 L96 68 L88 78 Z" fill="#26303a"/>
+            <circle cx="52" cy="68" r="2.5" fill="#ece2cf"/>
+            <circle cx="88" cy="68" r="2.5" fill="#ece2cf"/>
+            <path d="M42 52 Q52 44 62 52 M78 52 Q88 44 98 52" fill="none" stroke="#26303a" stroke-width="2.5"/>
+            <circle cx="70" cy="90" r="10" fill="#b3261e"/>
+            <circle cx="67" cy="87" r="3" fill="#e86a5e"/>
+            <path d="M42 106 Q70 132 98 106 Q70 120 42 106 Z" fill="#8f1f1a" stroke="#8f1f1a" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="34" y="138" width="72" height="16" rx="3" fill="#8f2b25"/>
+            <text x="70" y="150" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="700" letter-spacing="2" fill="#efe3cc">СМЕХ</text>
+          </svg>
+        </div>
+
+        <!-- Куст -->
+        <div class="pg-spot" data-spot="bush" style="left: 60%; top: 76.22%; width: 15%; height: 18.293%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у куста" hidden style="left: 22.222%; top: -48.333%; width: 66.667%; height: 108.333%; --tilt: -6deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 180 120" aria-hidden="true">
+            <ellipse cx="90" cy="114" rx="86" ry="6" fill="#000" opacity=".4"/>
+            <circle cx="40" cy="78" r="36" fill="#1b261e"/>
+            <circle cx="82" cy="58" r="42" fill="#223024"/>
+            <circle cx="130" cy="70" r="38" fill="#1d2a20"/>
+            <circle cx="154" cy="94" r="24" fill="#1b261e"/>
+            <circle cx="24" cy="98" r="20" fill="#223024"/>
+            <circle cx="94" cy="96" r="28" fill="#1b261e"/>
+            <g fill="#2e4030" opacity=".8"><circle cx="66" cy="40" r="6"/><circle cx="100" cy="34" r="5"/><circle cx="138" cy="54" r="5"/><circle cx="40" cy="62" r="5"/></g>
+            <g fill="#8f2b25"><circle cx="70" cy="52" r="3"/><circle cx="120" cy="64" r="3"/><circle cx="100" cy="82" r="3"/><circle cx="48" cy="86" r="3"/></g>
+          </svg>
+        </div>
+
+        <!-- Чёрный джип -->
+        <div class="pg-spot" data-spot="jeep" style="left: 80%; top: 71.646%; width: 18.333%; height: 19.817%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у чёрного джипа" hidden style="left: 41.818%; top: -49.231%; width: 54.545%; height: 100%; --tilt: 8deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 220 130" aria-hidden="true">
+            <ellipse cx="110" cy="124" rx="106" ry="6" fill="#000" opacity=".5"/>
+            <circle cx="214" cy="64" r="16" fill="#ffd98a" opacity=".22"/>
+            <rect x="0" y="58" width="10" height="32" rx="3" fill="#050607"/>
+            <path d="M8 92 V66 Q8 58 16 56 L60 52 L78 22 Q82 16 90 16 L176 16 Q184 16 186 24 L190 54 L208 58 Q214 60 214 68 V92 Z" fill="#0e1112" stroke="#262b2d" stroke-width="2"/>
+            <rect x="86" y="9" width="92" height="4" fill="#262b2d"/>
+            <path d="M96 13 V17 M168 13 V17" stroke="#262b2d" stroke-width="3"/>
+            <path d="M86 26 L72 52 H118 V26 Z" fill="#26333a"/>
+            <rect x="126" y="26" width="56" height="26" fill="#26333a"/>
+            <polyline points="140,28 150,40 146,50" fill="none" stroke="#3d4e56" stroke-width="1.5"/>
+            <path d="M122 54 V90" stroke="#262b2d" stroke-width="2"/>
+            <rect x="102" y="62" width="12" height="3" fill="#3a3f41"/>
+            <rect x="204" y="68" width="12" height="20" rx="2" fill="#1a1e20"/>
+            <circle cx="209" cy="64" r="5" fill="#ffd98a"/>
+            <rect x="9" y="62" width="5" height="10" fill="#6e1e1a"/>
+            <path d="M20 92 Q40 84 60 92 M150 92 Q170 84 196 92" fill="none" stroke="#2b251d" stroke-width="4" opacity=".8"/>
+            <circle cx="52" cy="96" r="22" fill="#050607" stroke="#1a1e20" stroke-width="3"/>
+            <circle cx="52" cy="96" r="9" fill="#3a3f41"/>
+            <circle cx="170" cy="96" r="22" fill="#050607" stroke="#1a1e20" stroke-width="3"/>
+            <circle cx="170" cy="96" r="9" fill="#3a3f41"/>
+          </svg>
+        </div>
+
+        <!-- Касса -->
+        <div class="pg-spot" data-spot="booth" style="left: 16.667%; top: 47.561%; width: 11.667%; height: 22.866%">
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса у кассы" hidden style="left: 61.429%; top: 22.667%; width: 85.714%; height: 86.667%; --tilt: 12deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 140 150" aria-hidden="true">
+            <ellipse cx="70" cy="148" rx="62" ry="4" fill="#000" opacity=".45"/>
+            <rect x="20" y="58" width="100" height="90" fill="#3b2e26" stroke="#1e1612" stroke-width="2"/>
+            <g stroke="#2a201b" stroke-width="2"><line x1="20" y1="96" x2="120" y2="96"/><line x1="20" y1="122" x2="120" y2="122"/></g>
+            <rect x="36" y="74" width="68" height="40" fill="#0a0e0f" stroke="#1e1612" stroke-width="3"/>
+            <polyline points="44,76 56,90 50,100 62,112" fill="none" stroke="#3d4e56" stroke-width="1.5"/>
+            <polyline points="90,76 82,88 96,96" fill="none" stroke="#3d4e56" stroke-width="1.5"/>
+            <rect x="30" y="112" width="80" height="6" fill="#5a4636"/>
+            <path d="M66 118 h8 v16 l-4 -3 l-4 3 Z" fill="#cdbb98"/>
+            <path d="M10 60 L130 60 L120 42 L20 42 Z" fill="#cdbb98"/>
+            <g fill="#8f2b25"><path d="M20 42 H40 L32 60 H10 Z"/><path d="M60 42 H80 L80 60 H56 Z"/><path d="M100 42 H120 L130 60 H104 Z"/></g>
+            <rect x="24" y="10" width="92" height="28" rx="3" fill="#1f2628" stroke="#2f3739" stroke-width="2"/>
+            <g fill="#f0dcb4" opacity=".2"><circle cx="30" cy="10" r="7"/><circle cx="110" cy="10" r="7"/></g>
+            <g fill="#f0dcb4"><circle cx="30" cy="10" r="3"/><circle cx="110" cy="10" r="3"/></g>
+            <text x="70" y="30" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="600" font-size="17" letter-spacing="3" fill="#d9353b">КА<tspan class="flicker">С</tspan>СА</text>
+            <line x1="34" y1="38" x2="34" y2="42" stroke="#2f3739" stroke-width="2"/><line x1="106" y1="38" x2="106" y2="42" stroke="#2f3739" stroke-width="2"/>
+          </svg>
+        </div>
+
+        <!-- Клетка-фургон -->
+        <div class="pg-spot" data-spot="cage" style="left: 60%; top: 49.085%; width: 16.667%; height: 17.073%">
+          <svg class="pg-spot-back" viewBox="0 0 200 112" aria-hidden="true"><rect x="22" y="22" width="156" height="60" fill="#070a0b"/></svg>
+          <button class="pg-dog" type="button" data-dog aria-label="Поймать пса в клетке-фургоне" hidden style="left: 22%; top: -7.143%; width: 60%; height: 116.071%; --tilt: -6deg">
+            <svg viewBox="0 0 120 130" aria-hidden="true"><use href="#pg-dog"/></svg>
+          </button>
+          <svg class="pg-spot-art" viewBox="0 0 200 112" aria-hidden="true">
+            <ellipse cx="100" cy="108" rx="96" ry="4" fill="#000" opacity=".45"/>
+            <path d="M8 22 Q100 -4 192 22 V20 H8 Z" fill="#3a1714"/>
+            <path d="M8 16 L8 92 L192 92 L192 16 Q100 -6 8 16 Z M22 22 V82 H178 V22 Z" fill="#5a1f1b" fill-rule="evenodd" stroke="#2a0e0c" stroke-width="2"/>
+            <g fill="#c9a46a"><circle cx="20" cy="14" r="3"/><circle cx="100" cy="5" r="3"/><circle cx="180" cy="14" r="3"/></g>
+            <rect x="8" y="84" width="184" height="8" fill="#3a1714"/>
+            <g stroke="#9a8458" stroke-width="3"><line x1="36" y1="22" x2="36" y2="82"/><line x1="52" y1="22" x2="52" y2="82"/><line x1="68" y1="22" x2="68" y2="82"/><line x1="84" y1="22" x2="84" y2="82"/><line x1="116" y1="22" x2="116" y2="82"/><line x1="132" y1="22" x2="132" y2="82"/><line x1="148" y1="22" x2="148" y2="82"/><line x1="164" y1="22" x2="164" y2="82"/></g>
+            <path d="M100 22 V44 Q100 56 110 64 V82" fill="none" stroke="#9a8458" stroke-width="3"/>
+            <rect x="176" y="46" width="10" height="12" rx="2" fill="#9a8458"/>
+            <path d="M178 46 v-4 a3 3 0 0 1 6 0 v4" fill="none" stroke="#9a8458" stroke-width="2"/>
+            <g stroke="#2a2320" stroke-width="2"><circle cx="46" cy="94" r="16" fill="#1a1512"/><circle cx="154" cy="94" r="16" fill="#1a1512"/></g>
+            <g stroke="#5a4636" stroke-width="2"><path d="M46 78 V110 M30 94 H62 M35 83 L57 105 M57 83 L35 105"/><path d="M154 78 V110 M138 94 H170 M143 83 L165 105 M165 83 L143 105"/></g>
+            <g fill="#5a4636"><circle cx="46" cy="94" r="4"/><circle cx="154" cy="94" r="4"/></g>
+          </svg>
+        </div>
+
+        <div class="pg-fog" aria-hidden="true"></div>
+        <p class="pg-hint pg-rec"><b></b>Пёс выглядывает на 1 секунду</p>
+
+        <div class="pg-start" data-game-start-panel>
+          <p class="pg-label">Лови пса, или он поймает тебя</p>
+          <button class="btn" type="button" data-game-start>Старт</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- анимация стартует, когда секция становится видимой -->
+    <section class="pg-over" data-game-screen="over" hidden>
+      <div class="pg-over-stage" aria-hidden="true">
+        <svg class="pg-over-dog" viewBox="0 0 120 130"><use href="#pg-dog"/></svg>
+        <svg class="pg-over-evil" viewBox="0 0 120 130"><use href="#pg-evil-dog"/></svg>
+      </div>
+      <div class="pg-over-flash" aria-hidden="true"></div>
+      <div class="pg-over-vignette" aria-hidden="true"></div>
+      <div class="pg-over-final">
+        <p class="pg-rec"><b></b>Сигнал потерян · 00:00</p>
+        <h2 class="pg-over-title glitch" data-text="Вас съели">Вас съели</h2>
+        <p class="pg-over-sub">Теперь вы навсегда останетесь в Квесте</p>
+        <p class="pg-over-stats">Собрано: <span data-game-final>0</span> · рекорд <span data-game-best>0</span></p>
+        <button class="btn" type="button" data-game-restart>Ещё раз</button>
+      </div>
+    </section>
+  </div>
+</dialog>
+
+<dialog class="pg pg-note" data-game-mobile closedby="any" aria-labelledby="pg-note-text">
+  <form method="dialog">
+    <button class="icon-btn pg-close" aria-label="Закрыть">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </form>
+  <div class="pg-note-dog" aria-hidden="true">
+    <svg viewBox="0 0 120 130"><use href="#pg-dog"/></svg>
+    <svg class="pg-note-evil" viewBox="0 0 120 130"><use href="#pg-evil-dog"/></svg>
+  </div>
+  <p class="pg-note-text" id="pg-note-text">Открой сайт на десктопе, чтобы поиграть с псом</p>
+</dialog>
 
 <script type="module" src="/src/main.js"></script>
 </body>

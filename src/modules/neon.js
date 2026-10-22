@@ -1,7 +1,5 @@
 import { $ } from './util.js';
 
-// «Но что будет, когда ты победишь?» stays dim and ignites once it is fully on screen.
-// The «Три года назад» paragraph gets rewritten once it reaches the middle of the screen.
 // Armed only after the page is unlocked, so neither can fire unseen behind the hero.
 export function initNeon() {
   const targets = [

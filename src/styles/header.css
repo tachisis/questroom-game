@@ -6,11 +6,9 @@
   background: linear-gradient(#06070acc, #06070a00);
 }
 
-/* REC + ticking clock */
 .rec { display: flex; align-items: center; gap: 10px; font: 500 13px/1.4 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--text); text-shadow: 0 0 6px #000; }
 .rec b { width: 10px; height: 10px; border-radius: 50%; background: var(--red-2); animation: blink 1.2s steps(1) infinite; }
 
-/* Equalizer = music on/off. Sits in the middle of the header. */
 .eq {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   display: flex; align-items: center; justify-content: center;
@@ -30,7 +28,6 @@
 .eq.on .eq-bars i:nth-child(7) { animation-duration: 1.2s; animation-delay: -.1s; }
 .eq:hover .eq-bars i, .eq:focus-visible .eq-bars i { opacity: .18; }
 @keyframes eq { 0%, 100% { transform: scaleY(.2); } 50% { transform: scaleY(1); } }
-/* on/off icon right on top of the bars, on hover/focus */
 .eq-hint { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text); opacity: 0; transform: scale(.85); transition: opacity .25s, transform .25s; pointer-events: none; }
 .eq:hover .eq-hint, .eq:focus-visible .eq-hint { opacity: 1; transform: none; }
 .eq-hint svg { grid-area: 1 / 1; }

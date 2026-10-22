@@ -9,10 +9,9 @@
 }
 
 @media (max-width: 560px) {
-  /* header: REC dot, equalizer, menu in one row without overlap */
   .hdr { gap: 12px; }
   .rec { font-size: 0; gap: 0; }
-  .eq { position: static; transform: none; margin-right: auto; padding: 0 8px; }
+  .eq { position: relative; left: auto; top: auto; transform: none; margin-right: auto; padding: 0 8px; }
   .nav { gap: 14px; }
   .nav a { font-size: 11px; letter-spacing: .1em; }
 
@@ -30,7 +29,6 @@
   .blood-sec { padding-bottom: 64px; }
 
   .set-text .neon { font-size: 30px; }
-  .about { min-height: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,4 @@
-.about { min-height: 876px; padding: clamp(80px, 10vw, 140px) 0 48px; background: var(--ink-2); border-top: 1px solid var(--line-2); }
+.about { padding: clamp(80px, 10vw, 140px) 0 24px; background: var(--ink-2); border-top: 1px solid var(--line-2); }
 .credits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin: 56px 0 0; border-top: 1px solid var(--line); }
 .cr { padding-top: 24px; }
 .cr dt { margin: 0 0 14px; font: 500 12px/1.4 var(--f-mono); letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }

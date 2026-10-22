@@ -1,11 +1,9 @@
-/* ---------- phone with the messenger, over everything ---------- */
 .ph-scrim { position: fixed; inset: 0; z-index: 50; width: 100%; padding: 0; border: 0; background: #030407a6; backdrop-filter: blur(3px); cursor: pointer; animation: scrimIn 1.2s ease both; }
 .phone-layer.closing .ph-scrim { animation: scrimOut .5s ease both; }
 @keyframes scrimIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scrimOut { to { opacity: 0; } }
 
 .phone-wrap { position: fixed; inset: 0; z-index: 51; display: grid; place-items: center; pointer-events: none; }
-/* always fits the window height (and width on narrow screens) */
 .phone {
   pointer-events: auto; position: relative;
   height: min(calc(100vh - 40px), calc((100vw - 32px) * 19 / 9));

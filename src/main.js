@@ -8,6 +8,7 @@ import { initQuest } from './modules/quest.js';
 import { initCharacters } from './modules/characters.js';
 import { initNeon } from './modules/neon.js';
 import { initReveal } from './modules/reveal.js';
+import { initGame } from './modules/game.js';
 
 document.documentElement.classList.add('js');
 
@@ -25,6 +26,9 @@ async function boot() {
   initCharacters(chars);
   const neon = initNeon();
   const reveal = initReveal(CONFIG.reveal);
+  initGame();
+  // showModal() has no event of its own, so the game music follows the dialog's open attribute
+  new MutationObserver(() => music.checkZone()).observe(document.querySelector('[data-game]'), { attributes: true, attributeFilter: ['open'] });
 
   initQuest(CONFIG.quest, messenger, {
     music,

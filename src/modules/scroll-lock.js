@@ -1,4 +1,3 @@
-// The page can't be scrolled until the visitor answers «Да» in the messenger.
 export function createScrollLock() {
   const root = document.documentElement;
   const body = document.body;

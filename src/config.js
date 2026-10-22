@@ -1,4 +1,3 @@
-// Site-wide switches and timings. Content (characters, news, messages) lives in public/data/*.json.
 export const CONFIG = {
   DEV_SKIP_INTRO: false,              // debug: no phone / «Да», page is unlocked right away and fully visible
   hero: {
@@ -16,7 +15,8 @@ export const CONFIG = {
     tracks: {
       hero: 'audio/hero',             // before the visitor answers «Да»
       setting: 'audio/setting',       // after «Да», in «Сеттинг»
-      chars: 'audio/characters'       // «Персонажи» and everything below
+      chars: 'audio/characters',      // «Персонажи» and everything below
+      game: 'audio/game'              // while the «Поймай Пельменя» popup is open
     },
     charsZoneAt: 0.6                  // «Персонажи» counts as reached when its top passes 60% of the viewport
   },

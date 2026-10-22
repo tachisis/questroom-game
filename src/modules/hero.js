@@ -1,6 +1,5 @@
 import { $, $$, el } from './util.js';
 
-// Hero: backgrounds switching by themselves with a flash, parallax, breaking-news ticker.
 export function initHero(cfg, news) {
   const hero = $('.hero');
   const layers = $$('[data-bg]', hero);
@@ -26,7 +25,6 @@ export function initHero(cfg, news) {
     show(cfg.backgrounds[(i + 1) % cfg.backgrounds.length]);
   }, cfg.switchEveryMs);
 
-  // parallax: background slower than the page, title fades out
   const bg = $('[data-parallax-bg]');
   const title = $('[data-parallax-title]');
   let raf = 0;

@@ -1,8 +1,5 @@
 import { $, $$, el, createTimers, shuffle } from './util.js';
 
-// The quest entry flow, all inside the hero:
-// «Начать квест» → music + toast «1 новое сообщение» → phone with the messenger →
-// the visitor must type «Да» (other answers get a reply from Anonymous) → page unlocks and scrolls to «Сеттинг».
 export function initQuest(cfg, msg, { music, lock, onUnlock }) {
   const cta = $('[data-quest-start]');
   const toast = $('[data-toast]');
@@ -17,7 +14,6 @@ export function initQuest(cfg, msg, { music, lock, onUnlock }) {
   const retry = shuffle(msg.retry);
   const s = { started: false, intro: false, ready: false, done: false, closing: false, retryIdx: 0 };
 
-  // ---------- feed helpers ----------
   const scrollFeed = () => { feed.scrollTop = feed.scrollHeight; };
   const setTyping = (on) => {
     status.textContent = on ? 'печатает…' : 'был(а) недавно';
@@ -43,7 +39,6 @@ export function initQuest(cfg, msg, { music, lock, onUnlock }) {
   };
   const clearFeed = () => { $$('.bub, .typing', feed).forEach((n) => n.remove()); setTyping(false); };
 
-  // ---------- flow ----------
   function start() {
     if (s.started) return;
     s.started = true;
@@ -68,7 +63,6 @@ export function initQuest(cfg, msg, { music, lock, onUnlock }) {
     timers.later(() => { try { input.focus({ preventScroll: true }); } catch { /* ignore */ } }, 4800);
   }
 
-  // back arrow / click outside: hide the phone, the toast stays, the chat keeps its place
   function minimize() {
     if (layer.hidden || s.closing) return;
     s.closing = true;
@@ -81,7 +75,6 @@ export function initQuest(cfg, msg, { music, lock, onUnlock }) {
     }, 500);
   }
 
-  // ✕: put the phone away and return to the very first screen
   function reset() {
     if (layer.hidden || s.closing || s.done) return;
     timers.clear();

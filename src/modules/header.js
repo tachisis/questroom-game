@@ -1,6 +1,5 @@
 import { $, $$ } from './util.js';
 
-// REC clock (03:14:07 → 59 → 00, the 14th minute never ends), equalizer = music toggle, menu guard.
 export function initHeader({ music, lock }) {
   const secEl = $('[data-rec-sec]');
   let sec = 7;
