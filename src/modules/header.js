@@ -12,7 +12,11 @@ export function initHeader({ music, lock }) {
   const iconOn = svg('<circle cx="16" cy="16" r="13" fill="#e2363c" opacity=".25"/><circle cx="16" cy="16" r="9" fill="#e2363c"/>');
   const iconOff = svg('<circle cx="16" cy="16" r="9" fill="#3a0d10"/>');
   let iconLit = true;
-  if (!prefersReducedMotion()) setInterval(() => { iconLit = !iconLit; icon.href = iconLit ? iconOn : iconOff; }, 600);
+  // only for the first 30 s: every href swap costs the browser process memory (Chrome leaks it), so an endless blink in a tab left open for hours eats RAM
+  if (!prefersReducedMotion()) {
+    const blink = setInterval(() => { iconLit = !iconLit; icon.href = iconLit ? iconOn : iconOff; }, 600);
+    setTimeout(() => { clearInterval(blink); icon.href = iconOn; }, 30000);
+  }
 
   const eq = $('[data-music-toggle]');
   const render = (on) => {
